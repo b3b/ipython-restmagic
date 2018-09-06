@@ -1,0 +1,4 @@
+six
+ipython>=1.0
+requests-toolbelt>=0.8.0
+
