@@ -17,6 +17,14 @@ def successful_response():
                         headers={'Test-Header': '111'})
 
 
+@pytest.fixture
+@responses.activate
+def unsuccessful_response():
+    responses.add(responses.GET, re.compile('.*'), status=401)
+    return requests.get('http://localhost/test',
+                        headers={'Test-Header': '111'})
+
+
 @responses.activate
 def test_request_sended():
     responses.add(responses.GET, re.compile('.*'))
@@ -65,3 +73,9 @@ def test_response_status_in_dump(successful_response):
     sender = RequestSender()
     sender.response = successful_response
     assert '200 OK' in sender.dump()
+
+
+def test_method_url_in_unsuccessful_dump(unsuccessful_response):
+    sender = RequestSender()
+    sender.response = unsuccessful_response
+    assert 'GET /test' in sender.dump()

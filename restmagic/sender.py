@@ -32,7 +32,7 @@ class RequestSender():
         """Dump HTTP session log.
         :rtype: str
         """
-        if self.response:
+        if self.response is not None:
             # Decode errors could occur when response contains non-text data.
             # It should be OK to ignore this errors, for most cases.
             return dump_all(self.response).decode(errors='replace')
