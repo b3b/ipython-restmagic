@@ -22,7 +22,7 @@ class RequestSender():
         session.keep_alive = False
         req = Request(rest_request.method,
                       rest_request.url,
-                      data={},
+                      data=rest_request.body,
                       headers=rest_request.headers)
         prepared_request = session.prepare_request(req)
         self.response = session.send(prepared_request)
