@@ -7,7 +7,7 @@ with open(ver_path) as ver_file:
 
 
 setup(
-    name='ipython-restmagic',
+    name='restmagic',
     version=main_ns['__version__'],
     packages=['restmagic'],
     description='HTTP REST magic for IPython',
