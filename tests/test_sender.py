@@ -4,7 +4,6 @@ import pytest
 import requests
 import responses
 
-import mock
 from restmagic import RESTRequest
 from restmagic.sender import RequestSender
 
@@ -34,23 +33,27 @@ def test_request_sended():
     assert responses.calls[0].request.url == 'http://localhost/test1'
 
 
-@mock.patch('restmagic.sender.Session.send')
-def test_request_parts_sended(send):
+@pytest.fixture
+def requests_send(mocker):
+    return mocker.patch('restmagic.sender.Session.send',
+                        return_value='test sended')
+
+
+def test_request_parts_sended(requests_send):
     sender = RequestSender()
     assert sender.response is None
-    sender.send(RESTRequest('POST', 'http://localhost/test',
-                            headers={'Test-Header': '1234'},
-                            body='{"test": "value"}'
-    ))
-    prepared_request = send.call_args[0][0]
+    rest_request = RESTRequest('POST', 'http://localhost/test',
+                               headers={'Test-Header': '1234'},
+                               body='{"test": "value"}')
+    sender.send(rest_request)
+    prepared_request = requests_send.call_args[0][0]
     assert prepared_request.method == 'POST'
     assert prepared_request.url == 'http://localhost/test'
     assert prepared_request.headers['Test-Header'] == '1234'
     assert prepared_request.body == '{"test": "value"}'
 
 
-@mock.patch('restmagic.sender.Session.send', return_value='test sended')
-def test_response_saved_by_send(send):
+def test_response_saved_by_send(requests_send):
     sender = RequestSender()
     assert sender.response is None
     sender.send(RESTRequest('GET', 'http://localhost/test'))

@@ -3,6 +3,7 @@ import pytest
 from restmagic.parser import (
     ParseError,
     RESTRequest,
+    expand_variables,
     parse_rest_request,
 )
 
@@ -114,3 +115,34 @@ def test_request_headers_parsed(value, expected):
 )
 def test_request_body_parsed(value, expected):
     assert parse_rest_request(value).body == expected.body
+
+
+@pytest.mark.parametrize(
+    'text, kwargs, expected',
+    (
+        ('', {}, ''),
+        ('\n', {}, '\n'),
+        ('$', {}, '$'),
+        ('$$', {}, '$'),
+        ('$$', {}, '$'),
+        ('{', {}, '{'),
+        ('}', {}, '}'),
+        ('{}', {}, '{}'),
+        ('{\n}', {}, '{\n}'),
+        ('${}', {}, '${}'),
+        ('$_$', {}, '$_$'),
+        ('$_$', {'_': 100}, '100$'),
+        ('{"user": "$user"}', {'user': 'test'}, '{"user": "test"}'),
+        ('{"user": "${user}"}', {'user': 'test'}, '{"user": "test"}'),
+        ('POST $root/json\nHeader: $header\n\n{\n"user": "${user}"\n}',
+         {
+             'root': 'https://httpbin.org',
+             'header': 'value',
+             'user': 'test',
+         },
+         'POST https://httpbin.org/json\nHeader: value\n\n'
+         '{\n"user": "test"\n}')
+    )
+)
+def test_variables_expanded(text, kwargs, expected):
+    assert expand_variables(text, kwargs) == expected

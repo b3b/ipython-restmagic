@@ -1,5 +1,5 @@
 pytest
-mock
+pytest-mock
 responses>=0.8.0
 docutils
 flake8

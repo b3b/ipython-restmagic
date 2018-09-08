@@ -1,7 +1,14 @@
 """restmagic.magic"""
-from IPython.core.magic import Magics, cell_magic, line_magic, magics_class
-
-from restmagic.parser import parse_rest_request
+from IPython.core.magic import (
+    Magics,
+    cell_magic,
+    line_magic,
+    magics_class,
+)
+from restmagic.parser import (
+    expand_variables,
+    parse_rest_request
+)
 from restmagic.sender import RequestSender
 
 
@@ -13,11 +20,19 @@ class RESTMagic(Magics):
     @cell_magic('rest')
     def rest(self, line, cell=''):
         """Run given HTTP query."""
-        rest_request = parse_rest_request('\n'.join((line, cell)))
+        rest_request = parse_rest_request('\n'.join((
+            line,
+            expand_variables(cell, self.get_user_namespace())
+        )))
         sender = RequestSender()
         response = sender.send(rest_request)
         print(sender.dump())
         return response
+
+    def get_user_namespace(self):
+        """Returns namespace to be used for variables expansion.
+        """
+        return getattr(self.shell, 'user_ns', {}) if self.shell else {}
 
 
 def load_ipython_extension(ipython):

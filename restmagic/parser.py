@@ -1,11 +1,22 @@
 """restmagic.parser"""
 import re
+from string import Template
 
 from restmagic.request import RESTRequest
 
 
 class ParseError(Exception):
     """Query parsing error occured."""
+
+
+def expand_variables(text, kwargs):
+    """Expand python variables in a string.
+
+    :param text: string for processing
+    :param kwargs: namespace for expansion
+    :returns: new expanded string
+    """
+    return Template(text).safe_substitute(kwargs)
 
 
 def parse_rest_request(text):
