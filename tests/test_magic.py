@@ -27,10 +27,21 @@ def parse_rest_request(mocker):
     return mocker.patch('restmagic.magic.parse_rest_request', return_value='')
 
 
-# def test_send_response_returned_by_rest_command(send):
-#     result = RESTMagic().rest('GET http://localhost')
-#     send.assert_called_once()
-#     assert result == 'test sended'
+@pytest.fixture(autouse=True)
+def display_response(mocker):
+    return mocker.patch('restmagic.magic.display_response', return_value=None)
+
+
+@pytest.fixture(autouse=True)
+def showtraceback(mocker):
+    return mocker.patch('IPython.core.interactiveshell.'
+                        'InteractiveShell.showtraceback')
+
+
+def test_send_response_returned_by_rest_command(send):
+    result = RESTMagic().rest('GET http://localhost')
+    send.assert_called_once()
+    assert result == 'test sended'
 
 
 def test_variables_expansion_used_by_rest_command(mocker, expand_variables):
@@ -49,3 +60,11 @@ def test_user_variables_are_passed_to_expand_variables(ip, expand_variables):
     ip.run_cell_magic('rest', '', 'GET /')
     kwargs = expand_variables.call_args[0][1]
     assert kwargs['test_var'] == 'test value'
+
+
+def test_traceback_is_shown_if_display_fail(ip, mocker, display_response,
+                                            showtraceback):
+    display_response.side_effect = Exception()
+    result = ip.run_cell_magic('rest', '', 'GET /')
+    showtraceback.assert_called_once()
+    assert result == 'test sended'

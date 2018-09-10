@@ -5,6 +5,7 @@ from IPython.core.magic import (
     line_magic,
     magics_class,
 )
+from restmagic.display import display_response
 from restmagic.parser import (
     expand_variables,
     parse_rest_request
@@ -27,6 +28,11 @@ class RESTMagic(Magics):
         sender = RequestSender()
         response = sender.send(rest_request)
         print(sender.dump())
+        try:
+            display_response(response)
+        except Exception:
+            print("Can't display the response.")
+            self.shell.showtraceback(exception_only=True)
         return response
 
     def get_user_namespace(self):
