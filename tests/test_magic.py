@@ -18,6 +18,12 @@ def send(mocker):
 
 
 @pytest.fixture(autouse=True)
+def dump(mocker):
+    return mocker.patch('restmagic.magic.RequestSender.dump',
+                        return_value='session dump')
+
+
+@pytest.fixture(autouse=True)
 def expand_variables(mocker):
     return mocker.patch('restmagic.magic.expand_variables', return_value='')
 
@@ -68,3 +74,13 @@ def test_traceback_is_shown_if_display_fail(ip, mocker, display_response,
     result = ip.run_cell_magic('rest', '', 'GET /')
     showtraceback.assert_called_once()
     assert result == 'test sended'
+
+
+def test_command_options_extracted_from_query(parse_rest_request):
+    RESTMagic().rest(line='-v -v -v GET http://localhost')
+    parse_rest_request.assert_called_once_with('GET http://localhost\n')
+
+
+def test_session_dumped_in_verbose_mode(dump):
+    RESTMagic().rest(line='-v GET http://localhost')
+    dump.assert_called_once()
