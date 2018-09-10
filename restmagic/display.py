@@ -9,6 +9,8 @@ def display_response(response):
 
     :param response: :class:`request.Response`
     """
+    if not response.content:
+        return
     mime_type = get_mime_type(response)
     if mime_type == 'application/json':
         display(Pretty(json.dumps(response.json(), indent=2)))

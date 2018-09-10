@@ -14,7 +14,7 @@ def set_mime_type(mocker):
 
 @pytest.fixture
 def response(mocker):
-    def _response(headers=None, text='', content=b'', json=None):
+    def _response(headers=None, text='test', content=b'test', json=None):
         r = mocker.Mock()
         r.headers = headers or {}
         r.content = content
@@ -56,3 +56,9 @@ def test_ipython_display_called(mime_type, set_mime_type, ipython_display,
     set_mime_type(mime_type)
     display_response(response())
     ipython_display.assert_called_once()
+
+
+def test_empty_response_not_displayed(response, ipython_display):
+    set_mime_type('application/json')
+    display_response(response(content=b''))
+    ipython_display.assert_not_called()
