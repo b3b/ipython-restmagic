@@ -35,7 +35,7 @@ def parse_rest_request(text):
     if not match:
         raise ParseError('Syntax error')
     # headers and body are separated by a blank line
-    parts = text[match.end():].split('\n\n', 1)
+    parts = re.split(r'\n[ \t]*\n', text[match.end():], 1)
     return RESTRequest(
         method=match.group('method').upper(),
         url=match.group('url'),

@@ -69,6 +69,10 @@ def rest_requests():
             'GET http://example.org\n\nBody:text',
             RESTRequest('GET', 'http://example.org', {}, 'Body:text')
         ),
+        (
+            'GET http://example.org\n \t   \nBody:text',
+            RESTRequest('GET', 'http://example.org', {}, 'Body:text')
+        ),
     )
 
 
