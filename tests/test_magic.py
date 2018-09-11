@@ -84,3 +84,8 @@ def test_command_options_extracted_from_query(parse_rest_request):
 def test_session_dumped_in_verbose_mode(dump):
     RESTMagic().rest(line='-v GET http://localhost')
     dump.assert_called_once()
+
+
+def test_no_display_in_quit_mode(display_response):
+    RESTMagic().rest(line='-q GET http://localhost')
+    display_response.assert_not_called()

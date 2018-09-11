@@ -24,6 +24,9 @@ class RESTMagic(Magics):
     @magic_arguments.argument('--verbose', '-v',
                               action='store_true',
                               help='Dump full HTTP session log.')
+    @magic_arguments.argument('--quit', '-q',
+                              action='store_true',
+                              help='Do not print HTTP request and response.')
     @magic_arguments.argument('query', nargs='*')
     def rest(self, line, cell=''):
         """Run given HTTP query."""
@@ -34,9 +37,9 @@ class RESTMagic(Magics):
         )))
         sender = RequestSender()
         response = sender.send(rest_request)
-        if args.verbose:
+        if args.verbose and not args.quit:
             print(sender.dump())
-        else:
+        elif not args.quit:
             try:
                 display_response(response)
             except Exception:

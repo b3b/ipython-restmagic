@@ -51,4 +51,4 @@ Related resources
 * `Make Jupyter/IPython Notebook even more magical with cell magic extensions! <https://www.youtube.com/watch?v=zxkdO07L29Q>`_ : Nicolas Kruchten's talk from the PyCon Canada 2015
 * `ipython-sql <https://github.com/catherinedevlin/ipython-sql>`_ : was used as an example of IPython magic
 * `python-requests <https://github.com/requests/requests>`_ : used for HTTP requests
-* `requests-toolbelt <https://github.com/requests/toolbelt>`_: used for HTTP sessions information dumping
+* `requests-toolbelt <https://github.com/requests/toolbelt>`_ : used for HTTP sessions information dumping
