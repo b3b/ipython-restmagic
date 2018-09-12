@@ -98,18 +98,6 @@ def test_no_display_in_quit_mode(display_response):
     display_response.assert_not_called()
 
 
-def test_sender_property_saved(ip):
-    rest = RESTMagic()
-    rest.shell = ip
-    assert rest.sender is None
-    assert ip.user_global_ns.get('_restmagic_session') is None
-
-    rest.sender = 'test_sender_property'
-
-    assert rest.sender == 'test_sender_property'
-    assert ip.user_global_ns['_restmagic_session'] == 'test_sender_property'
-
-
 def test_sender_not_reused(ip):
     rest = ip.find_magic('rest').__self__
     assert rest.sender is None

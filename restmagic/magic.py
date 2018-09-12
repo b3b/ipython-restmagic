@@ -6,6 +6,9 @@ from IPython.core.magic import (
     line_magic,
     magics_class,
 )
+from traitlets.config.configurable import Configurable
+from traitlets import Instance
+
 from restmagic.display import display_response
 from restmagic.parser import (
     expand_variables,
@@ -15,10 +18,12 @@ from restmagic.sender import RequestSender
 
 
 @magics_class
-class RESTMagic(Magics):
+class RESTMagic(Magics, Configurable):
     """Provides the %%rest magic."""
 
-    session_varriable_name = '_restmagic_session'
+    # Store class:`RequestSender` object to reuse,
+    # when session persistent mode is on.
+    sender = Instance(RequestSender, allow_none=True, config=False)
 
     @line_magic('rest_session')
     @magic_arguments.magic_arguments()
@@ -74,17 +79,6 @@ class RESTMagic(Magics):
         """Returns namespace to be used for variables expansion.
         """
         return getattr(self.shell, 'user_ns', {}) if self.shell else {}
-
-    @property
-    def sender(self):
-        """Store class:`RequestSender` object to reuse,
-        when session persistent mode is on.
-        """
-        return self.get_user_namespace().get(self.session_varriable_name)
-
-    @sender.setter
-    def sender(self, value):
-        self.get_user_namespace()[self.session_varriable_name] = value
 
 
 def load_ipython_extension(ipython):
