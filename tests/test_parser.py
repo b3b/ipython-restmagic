@@ -23,6 +23,10 @@ def rest_requests():
             RESTRequest('GET', 'http://example1.org', {}, '')
         ),
         (
+            'http://example.org',
+            RESTRequest('GET', 'http://example.org', {}, '')
+        ),
+        (
             '  \n\n\tgeT http://example.org:8000'
             '/lib/some.php/?var=1&var=2#test\n',
             RESTRequest('GET',
@@ -78,7 +82,7 @@ def rest_requests():
 
 @pytest.mark.parametrize(
     'value', [
-        'GET',
+        'GET example.org example.org',
         'Content-Type: application/json',
         '\n\n',
         '',
