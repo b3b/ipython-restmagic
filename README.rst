@@ -1,7 +1,7 @@
 ipython-restmagic
 =================
 
-`%%rest`: Jupyter/IPython notebook magic for HTTP queries execution.
+`%%rest` : Jupyter/IPython notebook magic for HTTP queries execution.
 
 Intended to provide similar functionality as `restclient.el <https://github.com/pashky/restclient.el>`_ - HTTP REST client tool for Emacs.
 

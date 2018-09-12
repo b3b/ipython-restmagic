@@ -18,6 +18,29 @@ from restmagic.sender import RequestSender
 class RESTMagic(Magics):
     """Provides the %%rest magic."""
 
+    session_varriable_name = '_restmagic_session'
+
+    @line_magic('rest_session')
+    @magic_arguments.magic_arguments()
+    @magic_arguments.argument('--end', '-e',
+                              action='store_true',
+                              help=('End the current the session,'
+                                    ' and do not start a new one.'))
+    def rest_session(self, line):
+        """Start persistent HTTP session.
+        """
+        args = magic_arguments.parse_argstring(self.rest_session, line)
+        sender = self.sender
+        if sender:
+            sender.close_session()
+            print('Session ended.')
+
+        if args.end:
+            self.sender = None
+        else:
+            self.sender = RequestSender(keep_alive=True)
+            print('New session started.')
+
     @line_magic('rest')
     @cell_magic('rest')
     @magic_arguments.magic_arguments()
@@ -35,7 +58,7 @@ class RESTMagic(Magics):
             ' '.join(args.query),
             expand_variables(cell, self.get_user_namespace())
         )))
-        sender = RequestSender()
+        sender = self.sender or RequestSender()
         response = sender.send(rest_request)
         if args.verbose and not args.quit:
             print(sender.dump())
@@ -51,6 +74,17 @@ class RESTMagic(Magics):
         """Returns namespace to be used for variables expansion.
         """
         return getattr(self.shell, 'user_ns', {}) if self.shell else {}
+
+    @property
+    def sender(self):
+        """Store class:`RequestSender` object to reuse,
+        when session persistent mode is on.
+        """
+        return self.get_user_namespace().get(self.session_varriable_name)
+
+    @sender.setter
+    def sender(self, value):
+        self.get_user_namespace()[self.session_varriable_name] = value
 
 
 def load_ipython_extension(ipython):

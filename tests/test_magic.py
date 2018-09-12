@@ -8,13 +8,20 @@ def ip():
     ip = get_ipython()
     ip.register_magics(RESTMagic)
     ip.user_global_ns['test_var'] = 'test value'
-    return ip
+    yield ip
+    ip.user_global_ns.pop('test_var', None)
+    ip.user_global_ns.pop('_restmagic_session', None)
 
 
 @pytest.fixture(autouse=True)
 def send(mocker):
     return mocker.patch('restmagic.magic.RequestSender.send',
                         return_value='test sended')
+
+
+@pytest.fixture(autouse=True)
+def close_session(mocker):
+    return mocker.patch('restmagic.magic.RequestSender.close_session')
 
 
 @pytest.fixture(autouse=True)
@@ -89,3 +96,62 @@ def test_session_dumped_in_verbose_mode(dump):
 def test_no_display_in_quit_mode(display_response):
     RESTMagic().rest(line='-q GET http://localhost')
     display_response.assert_not_called()
+
+
+def test_sender_property_saved(ip):
+    rest = RESTMagic()
+    rest.shell = ip
+    assert rest.sender is None
+    assert ip.user_global_ns.get('_restmagic_session') is None
+
+    rest.sender = 'test_sender_property'
+
+    assert rest.sender == 'test_sender_property'
+    assert ip.user_global_ns['_restmagic_session'] == 'test_sender_property'
+
+
+def test_sender_not_reused(ip):
+    rest = ip.find_magic('rest').__self__
+    assert rest.sender is None
+
+    ip.run_line_magic('rest', 'GET /')
+    assert rest.sender is None
+
+
+def test_sender_reused_for_persistent_session(ip):
+    rest = ip.find_magic('rest').__self__
+    assert rest.sender is None
+
+    ip.run_line_magic('rest_session', '')
+    assert rest.sender is not None
+    assert rest.sender.send.call_count == 0
+    sender = rest.sender
+
+    ip.run_line_magic('rest', 'GET /')
+    assert rest.sender == sender
+    assert sender.send.call_count == 1
+
+    ip.run_line_magic('rest', 'GET /')
+    assert rest.sender == sender
+    assert sender.send.call_count == 2
+
+
+def test_rest_session_ended(ip):
+    rest = ip.find_magic('rest').__self__
+    ip.run_line_magic('rest_session', '')
+    sender = rest.sender
+
+    ip.run_line_magic('rest_session', '-e')
+    assert rest.sender is None
+    sender.close_session.assert_called_once()
+
+
+def test_rest_session_recreated(ip):
+    rest = ip.find_magic('rest').__self__
+    ip.run_line_magic('rest_session', '')
+    sender = rest.sender
+
+    ip.run_line_magic('rest_session', '')
+    assert rest.sender is not None
+    assert rest.sender != sender
+    sender.close_session.assert_called_once()

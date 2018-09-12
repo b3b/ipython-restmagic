@@ -82,3 +82,21 @@ def test_method_url_in_unsuccessful_dump(unsuccessful_response):
     sender = RequestSender()
     sender.response = unsuccessful_response
     assert 'GET /test' in sender.dump()
+
+
+def test_session_not_reused(mocker, requests_send):
+    sender = RequestSender()
+    sender.send(RESTRequest('GET', 'http://localhost/test'))
+    assert not sender.session
+
+
+def test_persistent_session_reused(mocker, requests_send):
+    sender = RequestSender(keep_alive=True)
+
+    sender.send(RESTRequest('GET', 'http://localhost/test'))
+    session = sender.session
+    assert session
+    assert getattr(session, 'keep_alive', True)
+
+    sender.send(RESTRequest('GET', 'http://localhost/test'))
+    assert sender.session == session
