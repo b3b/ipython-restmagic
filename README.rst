@@ -29,8 +29,10 @@ Usage
 Examples
 --------
 
-See `example <https://github.com/b3b/ipython-restmagic/blob/master/examples/example.ipynb>`_ notebook.
+See notebooks:
 
+* `Usage example <https://github.com/b3b/ipython-restmagic/blob/master/examples/usage.ipynb>`_
+* `Ethereum JSON RPC <https://github.com/b3b/ipython-restmagic/blob/master/examples/ethereum.ipynb>`_
 
 Installation
 ------------
