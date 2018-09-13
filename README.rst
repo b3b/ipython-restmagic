@@ -32,8 +32,9 @@ Examples
 See notebooks:
 
 * `Usage example <https://github.com/b3b/ipython-restmagic/blob/master/examples/usage.ipynb>`_
-* `Ethereum JSON RPC <https://github.com/b3b/ipython-restmagic/blob/master/examples/ethereum.ipynb>`_
-* `Send SMS with HiLink API <https://github.com/b3b/ipython-restmagic/blob/master/examples/ethereum.ipynb>`_
+* `GitHub API <https://github.com/b3b/ipython-restmagic/blob/master/examples/github.ipynb>`_
+* `Sending SMS with HiLink API <https://github.com/b3b/ipython-restmagic/blob/master/examples/hilink.ipynb>`_
+* `Ethereum JSON RPC <https://github.com/b3b/ipython-restmagic/blob/master/examples/ethereum.ipynb>`_  
 
 Installation
 ------------
