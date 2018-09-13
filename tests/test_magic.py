@@ -1,6 +1,8 @@
 import pytest
-from restmagic.magic import RESTMagic
 from IPython import get_ipython
+
+from restmagic.magic import RESTMagic
+from restmagic.request import RESTRequest
 
 
 @pytest.fixture
@@ -55,6 +57,14 @@ def test_send_response_returned_by_rest_command(send):
     result = RESTMagic().rest('GET http://localhost')
     send.assert_called_once()
     assert result == 'test sended'
+
+
+def test_root_values_are_added_to_query(parse_rest_request, send):
+    rest = RESTMagic()
+    rest.root = RESTRequest(url='http://example.org')
+    parse_rest_request.return_value = RESTRequest(url='test')
+    rest.rest('GET test')
+    send.assert_called_once_with(RESTRequest(url='http://example.org/test'))
 
 
 def test_variables_expansion_used_by_rest_command(mocker, expand_variables):
@@ -143,3 +153,18 @@ def test_rest_session_recreated(ip):
     assert rest.sender is not None
     assert rest.sender != sender
     sender.close_session.assert_called_once()
+
+
+def test_root_is_set(ip, parse_rest_request):
+    rest = ip.find_magic('rest').__self__
+    parse_rest_request.return_value = RESTRequest(url='test')
+    assert rest.root is None
+    ip.run_line_magic('rest_root', 'test')
+    assert rest.root == RESTRequest(url='test')
+
+
+def test_root_is_canceled(ip):
+    rest = ip.find_magic('rest').__self__
+    rest.root = RESTRequest(url='test')
+    ip.run_line_magic('rest_root', '')
+    assert rest.root is None

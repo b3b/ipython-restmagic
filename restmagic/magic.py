@@ -14,6 +14,7 @@ from restmagic.parser import (
     expand_variables,
     parse_rest_request
 )
+from restmagic.request import RESTRequest
 from restmagic.sender import RequestSender
 
 
@@ -24,6 +25,8 @@ class RESTMagic(Magics, Configurable):
     # Store class:`RequestSender` object to reuse,
     # when session persistent mode is on.
     sender = Instance(RequestSender, allow_none=True, config=False)
+    # Store default HTTP query values.
+    root = Instance(RESTRequest, allow_none=True, config=False)
 
     @line_magic('rest_session')
     @magic_arguments.magic_arguments()
@@ -46,6 +49,21 @@ class RESTMagic(Magics, Configurable):
             self.sender = RequestSender(keep_alive=True)
             print('New session started.')
 
+    @line_magic('rest_root')
+    @cell_magic('rest_root')
+    def rest_root(self, line, cell=''):
+        """Set default HTTP query values, to be used by all subsequent queries.
+        """
+        if line:
+            self.root = parse_rest_request('\n'.join((
+                line,
+                expand_variables(cell, self.get_user_namespace())
+            )))
+            print('Requests defaults are set.')
+        else:
+            self.root = None
+            print('Requests defaults are canceled.')
+
     @line_magic('rest')
     @cell_magic('rest')
     @magic_arguments.magic_arguments()
@@ -64,6 +82,8 @@ class RESTMagic(Magics, Configurable):
             expand_variables(cell, self.get_user_namespace())
         )))
         sender = self.sender or RequestSender()
+        if self.root:
+            rest_request = self.root + rest_request
         response = sender.send(rest_request)
         if args.verbose and not args.quit:
             print(sender.dump())
