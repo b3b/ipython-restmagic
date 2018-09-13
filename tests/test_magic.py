@@ -113,7 +113,7 @@ def test_session_dumped_in_verbose_mode(dump):
     dump.assert_called_once()
 
 
-def test_no_display_in_quit_mode(display_response):
+def test_no_display_in_quiet_mode(display_response):
     RESTMagic().rest(line='-q GET http://localhost')
     display_response.assert_not_called()
 

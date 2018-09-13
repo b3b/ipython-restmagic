@@ -70,7 +70,7 @@ class RESTMagic(Magics, Configurable):
     @magic_arguments.argument('--verbose', '-v',
                               action='store_true',
                               help='Dump full HTTP session log.')
-    @magic_arguments.argument('--quit', '-q',
+    @magic_arguments.argument('--quiet', '-q',
                               action='store_true',
                               help='Do not print HTTP request and response.')
     @magic_arguments.argument('query', nargs='*')
@@ -86,9 +86,9 @@ class RESTMagic(Magics, Configurable):
         response = sender.send(
             RESTRequest('GET', 'https://') + root + rest_request
         )
-        if args.verbose and not args.quit:
+        if args.verbose and not args.quiet:
             print(sender.dump())
-        elif not args.quit:
+        elif not args.quiet:
             try:
                 display_response(response)
             except Exception:
