@@ -37,7 +37,7 @@ def parse_rest_request(text):
     # headers and body are separated by a blank line
     parts = re.split(r'\n[ \t]*\n', text[match.end():], 1)
     return RESTRequest(
-        method=(match.group('method') or 'GET').upper(),
+        method=(match.group('method') or '').upper(),
         url=match.group('url'),
         headers=parse_rest_headers(parts[0]),
         body=parts[1] if len(parts) > 1 else '',

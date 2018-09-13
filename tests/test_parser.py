@@ -24,7 +24,7 @@ def rest_requests():
         ),
         (
             'http://example.org',
-            RESTRequest('GET', 'http://example.org', {}, '')
+            RESTRequest('', 'http://example.org', {}, '')
         ),
         (
             '  \n\n\tgeT http://example.org:8000'

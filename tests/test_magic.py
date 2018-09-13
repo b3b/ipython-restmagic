@@ -39,7 +39,8 @@ def expand_variables(mocker):
 
 @pytest.fixture(autouse=True)
 def parse_rest_request(mocker):
-    return mocker.patch('restmagic.magic.parse_rest_request', return_value='')
+    return mocker.patch('restmagic.magic.parse_rest_request',
+                        return_value=RESTRequest())
 
 
 @pytest.fixture(autouse=True)
@@ -61,10 +62,19 @@ def test_send_response_returned_by_rest_command(send):
 
 def test_root_values_are_added_to_query(parse_rest_request, send):
     rest = RESTMagic()
-    rest.root = RESTRequest(url='http://example.org')
+    rest.root = RESTRequest(method='POST', url='http://example.org')
     parse_rest_request.return_value = RESTRequest(url='test')
     rest.rest('GET test')
-    send.assert_called_once_with(RESTRequest(url='http://example.org/test'))
+    send.assert_called_once_with(RESTRequest(method='POST',
+                                             url='http://example.org/test'))
+
+
+def test_default_method_and_scheme_added_to_query(parse_rest_request, send):
+    rest = RESTMagic()
+    parse_rest_request.return_value = RESTRequest(url='test')
+    rest.rest('test')
+    send.assert_called_once_with(RESTRequest(method='GET',
+                                             url='https://test'))
 
 
 def test_variables_expansion_used_by_rest_command(mocker, expand_variables):

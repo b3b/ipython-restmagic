@@ -82,9 +82,10 @@ class RESTMagic(Magics, Configurable):
             expand_variables(cell, self.get_user_namespace())
         )))
         sender = self.sender or RequestSender()
-        if self.root:
-            rest_request = self.root + rest_request
-        response = sender.send(rest_request)
+        root = self.root or RESTRequest()
+        response = sender.send(
+            RESTRequest('GET', 'https://') + root + rest_request
+        )
         if args.verbose and not args.quit:
             print(sender.dump())
         elif not args.quit:

@@ -18,16 +18,17 @@ class RESTRequest():
         return "{method} {url}".format(method=self.method, url=self.url)
 
     def __add__(self, request):
-        url = request.url.lstrip('/')
-        root = self.url.rstrip('/')
-        if (root and url) and not re.match(r'^http[s]?://', url):
-            url = '/'.join((root, url))
-
+        url = request.url
+        if self.url and url and not re.match(r'^http[s]?://', url):
+            url = '/'.join((
+                re.sub(r'/$', '', self.url),  # root/ => root
+                re.sub(r'^/', '', url)        # /path => path
+            ))
         headers = self.headers.copy()
         headers.update(request.headers)
 
         return RESTRequest(
-            method=request.method,
+            method=request.method or self.method,
             url=url or self.url,
             headers=headers,
             body=request.body
