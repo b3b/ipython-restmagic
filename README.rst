@@ -12,10 +12,10 @@ Usage
 .. code-block:: python
 
     In [1]: %load_ext restmagic
-
     In [2]: %%rest
-       ...: POST http://httpbin.org/post
+       ...: POST https://httpbin.org/post
        ...: Content-Type: application/json
+       ...: Authorization: Bearer $mytoken
        ...:
        ...: {
        ...:     "some": "data",
