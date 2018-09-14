@@ -35,7 +35,10 @@ See notebooks:
 * `Django login form <https://github.com/b3b/ipython-restmagic/blob/master/examples/django.ipynb>`_
 * `GitHub API <https://github.com/b3b/ipython-restmagic/blob/master/examples/github.ipynb>`_
 * `Sending SMS with HiLink API <https://github.com/b3b/ipython-restmagic/blob/master/examples/hilink.ipynb>`_
-* `Ethereum JSON RPC <https://github.com/b3b/ipython-restmagic/blob/master/examples/ethereum.ipynb>`_  
+* `Ethereum JSON RPC <https://github.com/b3b/ipython-restmagic/blob/master/examples/ethereum.ipynb>`_
+
+In case notebooks do not render, examples could be viewed with Jupyter NBViewer: `here <https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/tree/master/examples/>`_ .
+
 
 Installation
 ------------
