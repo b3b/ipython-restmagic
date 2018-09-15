@@ -33,7 +33,7 @@ def parse_rest_request(text):
     """, re.VERBOSE | re.MULTILINE)
     match = re.match(pattern, text)
     if not match:
-        raise ParseError('Syntax error')
+        raise ParseError('Usage error')
     # headers and body are separated by a blank line
     parts = re.split(r'\n[ \t]*\n', text[match.end():], 1)
     return RESTRequest(

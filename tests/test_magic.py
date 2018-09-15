@@ -2,6 +2,7 @@ import pytest
 from IPython import get_ipython
 
 from restmagic.magic import RESTMagic
+from restmagic.parser import ParseError
 from restmagic.request import RESTRequest
 
 
@@ -46,6 +47,11 @@ def parse_rest_request(mocker):
 @pytest.fixture(autouse=True)
 def display_response(mocker):
     return mocker.patch('restmagic.magic.display_response', return_value=None)
+
+
+@pytest.fixture(autouse=True)
+def display_usage_example(mocker):
+    return mocker.patch('restmagic.magic.display_usage_example')
 
 
 @pytest.fixture(autouse=True)
@@ -185,3 +191,11 @@ def test_send_exception_is_reported(ip, send):
     result = ip.run_line_magic('rest_root', '')
     assert result is None
     assert ip.showtraceback.called_once()
+
+
+def test_usage_displayed_on_parse_error(parse_rest_request,
+                                        display_usage_example):
+    parse_rest_request.side_effect = ParseError('test')
+    result = RESTMagic().rest('')
+    assert result is None
+    display_usage_example.assert_called_once()

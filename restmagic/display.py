@@ -1,7 +1,32 @@
 """restmagic.display"""
+from __future__ import print_function
 import json
+import sys
 from IPython.display import display
 from IPython.display import HTML, Image, Pretty, SVG
+
+
+LINE_MAGIC_USAGE = """%{magic} GET https://httpbin.org/json"""
+CELL_MAGIC_USAGE = """%%{magic}
+POST https://httpbin.org/post
+Header: value
+
+Message body, separated from headers by an empty line.
+"""
+
+
+def display_usage_example(magic, error_text, is_cell_magic):
+    """Display magic usage example.
+    :param magic: command name
+    :parame error_text: text of an error to display
+    :param is_cell_magic: display cell usage if True, else line magic usage
+    """
+    if error_text:
+        print(error_text, file=sys.stderr)
+        sys.stderr.flush()
+    print("Usage example:")
+    text = CELL_MAGIC_USAGE if is_cell_magic else LINE_MAGIC_USAGE
+    display(HTML('<pre>' + text.format(magic=magic) + '</pre>'))
 
 
 def display_response(response):

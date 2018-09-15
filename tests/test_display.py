@@ -41,11 +41,6 @@ def test_mime_type_detected(mocker, headers, expected):
     assert get_mime_type(response) == expected
 
 
-def test_display_json_response(set_mime_type, response):
-    set_mime_type('application/json')
-    display_response(response(json={'a': 123, 'b': 4}))
-
-
 @pytest.mark.parametrize('mime_type', (
     'application/json',
     'unknown',

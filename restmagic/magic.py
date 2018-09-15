@@ -13,10 +13,11 @@ from IPython.core.magic import (
 from traitlets.config.configurable import Configurable
 from traitlets import Instance
 
-from restmagic.display import display_response
+from restmagic.display import display_response, display_usage_example
 from restmagic.parser import (
+    ParseError,
     expand_variables,
-    parse_rest_request
+    parse_rest_request,
 )
 from restmagic.request import RESTRequest
 from restmagic.sender import RequestSender
@@ -58,12 +59,18 @@ class RESTMagic(Magics, Configurable):
     def rest_root(self, line, cell=''):
         """Set default HTTP query values, to be used by all subsequent queries.
         """
-        if line:
-            self.root = parse_rest_request('\n'.join((
-                line,
-                expand_variables(cell, self.get_user_namespace())
-            )))
-            print('Requests defaults are set.')
+        if line or cell:
+            try:
+                self.root = parse_rest_request('\n'.join((
+                    line,
+                    expand_variables(cell, self.get_user_namespace())
+                )))
+            except ParseError as ex:
+                display_usage_example(magic='rest_root', error_text=str(ex),
+                                      is_cell_magic=(cell != ''))
+                return
+            else:
+                print('Requests defaults are set.')
         else:
             self.root = None
             print('Requests defaults are canceled.')
@@ -81,10 +88,16 @@ class RESTMagic(Magics, Configurable):
     def rest(self, line, cell=''):
         """Run given HTTP query."""
         args = magic_arguments.parse_argstring(self.rest, line)
-        rest_request = parse_rest_request('\n'.join((
-            ' '.join(args.query),
-            expand_variables(cell, self.get_user_namespace())
-        )))
+        try:
+            rest_request = parse_rest_request('\n'.join((
+                ' '.join(args.query),
+                expand_variables(cell, self.get_user_namespace())
+            )))
+        except ParseError as ex:
+            display_usage_example(magic='rest', error_text=str(ex),
+                                  is_cell_magic=(cell != ''))
+            return None
+
         sender = self.sender or RequestSender()
         root = self.root or RESTRequest()
 
