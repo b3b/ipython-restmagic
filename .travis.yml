@@ -5,6 +5,7 @@ python:
 sudo: false
 install:
   - pip install tox
+  - pip install codecov
 script:
   - tox -v -e py
 after_success:
