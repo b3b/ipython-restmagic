@@ -178,3 +178,10 @@ def test_root_is_canceled(ip):
     rest.root = RESTRequest(url='test')
     ip.run_line_magic('rest_root', '')
     assert rest.root is None
+
+
+def test_send_exception_is_reported(ip, send):
+    send.side_effect = Exception('test')
+    result = ip.run_line_magic('rest_root', '')
+    assert result is None
+    assert ip.showtraceback.called_once()

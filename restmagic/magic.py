@@ -1,4 +1,8 @@
 """restmagic.magic"""
+from __future__ import print_function
+
+import sys
+
 from IPython.core import magic_arguments
 from IPython.core.magic import (
     Magics,
@@ -83,16 +87,23 @@ class RESTMagic(Magics, Configurable):
         )))
         sender = self.sender or RequestSender()
         root = self.root or RESTRequest()
-        response = sender.send(
-            RESTRequest('GET', 'https://') + root + rest_request
-        )
+
+        try:
+            response = sender.send(
+                RESTRequest('GET', 'https://') + root + rest_request
+            )
+        except Exception:
+            print("Request was not completed.", file=sys.stderr)
+            self.shell.showtraceback(exception_only=True)
+            return None
+
         if args.verbose and not args.quiet:
             print(sender.dump())
         elif not args.quiet:
             try:
                 display_response(response)
             except Exception:
-                print("Can't display the response.")
+                print("Can't display the response.", file=sys.stderr)
                 self.shell.showtraceback(exception_only=True)
         return response
 
