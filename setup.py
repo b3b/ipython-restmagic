@@ -1,9 +1,11 @@
 from setuptools import setup, convert_path
 
 main_ns = {}
-ver_path = convert_path('restmagic/version.py')
-with open(ver_path) as ver_file:
+with open(convert_path('restmagic/version.py')) as ver_file:
     exec(ver_file.read(), main_ns)
+
+with open(convert_path('README.rst')) as readme_file:
+    long_description = readme_file.read()
 
 
 setup(
@@ -11,6 +13,8 @@ setup(
     version=main_ns['__version__'],
     packages=['restmagic'],
     description='HTTP REST magic for IPython',
+    long_description=long_description,
+    long_description_content_type='text/x-rst',
     author='b3b',
     author_email='ash.b3b@gmail.com',
     install_requires=[

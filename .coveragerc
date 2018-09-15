@@ -1,0 +1,12 @@
+[run]
+source = restmagic
+branch = True
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    def __str__
+    __version__
+
+ignore_errors = True
