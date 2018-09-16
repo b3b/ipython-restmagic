@@ -25,13 +25,14 @@ setup(
     url='https://github.com/b3b/ipython-restmagic',
     # https://pypi.org/classifiers/
     classifiers=[
-        'Development Status :: 1 - Planning',
+        'Development Status :: 3 - Alpha',
         'Environment :: Console',
         'License :: OSI Approved :: MIT License',
         'Framework :: IPython',
+        'Framework :: Jupyter',
         'Topic :: Internet :: WWW/HTTP',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.6',
     ],
     keywords='magic rest http ipython jupyter',
     license='MIT',

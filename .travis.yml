@@ -18,6 +18,7 @@ deploy:
   provider: pypi
   on:
     branch: release
+  python: 3.6
   distributions: sdist
   user: b3b
   password:

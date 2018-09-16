@@ -1,6 +1,21 @@
 ipython-restmagic
 =================
 
+.. start-badges
+.. image:: https://img.shields.io/pypi/v/restmagic.svg
+    :target: https://pypi.python.org/pypi/restmagic
+    :alt: Latest version on PyPi
+.. image:: https://img.shields.io/pypi/v/restmagic.svg
+    :target: https://img.shields.io/pypi/restmagic
+    :alt: Supported Python versions
+.. image:: https://img.shields.io/travis/b3b/ipython-restmagic.svg
+    :target: https://travis-ci.org/b3b/ipython-restmagic
+    :alt: Travis-CI build status
+.. image:: https://codecov.io/github/b3b/ipython-restmagic/coverage.svg?branch=master
+    :target: https://codecov.io/github/b3b/ipython-restmagic?branch=master
+    :alt: Code coverage Status
+.. end-badges
+
 `%%rest` : Jupyter/IPython notebook magic for HTTP queries execution.
 
 Intended to provide similar functionality as `restclient.el <https://github.com/pashky/restclient.el>`__ - HTTP REST client tool for Emacs.
@@ -43,7 +58,11 @@ In case notebooks do not render, examples could be viewed with Jupyter NBViewer:
 Installation
 ------------
 
-Latest version can be installed by executing::
+Package can be installed from the PyPI by executing::
+
+    pip install restmagic
+
+Development version can be installed by executing::
 
     pip install git+https://github.com/b3b/ipython-restmagic
 
