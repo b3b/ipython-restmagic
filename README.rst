@@ -5,8 +5,8 @@ ipython-restmagic
 .. image:: https://img.shields.io/pypi/v/restmagic.svg
     :target: https://pypi.python.org/pypi/restmagic
     :alt: Latest version on PyPi
-.. image:: https://img.shields.io/pypi/v/restmagic.svg
-    :target: https://img.shields.io/pypi/restmagic
+.. image:: https://img.shields.io/pypi/pyversions/restmagic.svg
+    :target: https://pypi.python.org/pypi/restmagic
     :alt: Supported Python versions
 .. image:: https://img.shields.io/travis/b3b/ipython-restmagic.svg
     :target: https://travis-ci.org/b3b/ipython-restmagic
