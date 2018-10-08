@@ -16,7 +16,7 @@ ipython-restmagic
     :alt: Code coverage Status
 .. end-badges
 
-`%%rest` : Jupyter/IPython notebook magic for HTTP queries execution.
+`%%rest` : HTTP REST magic for IPython.
 
 Intended to provide similar functionality as `restclient.el <https://github.com/pashky/restclient.el>`__ - HTTP REST client tool for Emacs.
 
@@ -39,6 +39,7 @@ Usage
        ...:         "item 2"
        ...:     ]
        ...: }
+    Out [2]: <Response [200]>
 
 
 Examples
