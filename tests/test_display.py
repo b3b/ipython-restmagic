@@ -57,3 +57,10 @@ def test_empty_response_not_displayed(response, ipython_display):
     set_mime_type('application/json')
     display_response(response(content=b''))
     ipython_display.assert_not_called()
+
+
+def test_unicode_characters_displayed_unescaped(set_mime_type, ipython_display, response):
+    set_mime_type('application/json')
+    display_response(response(json={'\u03C0': '\u03C0'}))
+    pretty_data = ipython_display.call_args[0][0].data
+    assert pretty_data.replace('\n', '').replace(' ', '') == '{"\u03C0":"\u03C0"}'

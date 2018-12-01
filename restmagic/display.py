@@ -38,7 +38,8 @@ def display_response(response):
         return
     mime_type = get_mime_type(response)
     if mime_type == 'application/json':
-        display(Pretty(json.dumps(response.json(), indent=2)))
+        display(Pretty(json.dumps(response.json(), indent=2,
+                                  ensure_ascii=False)))
     elif mime_type == 'text/html':
         display(HTML(response.text))
     elif mime_type == 'image/svg+xml':
