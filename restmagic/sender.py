@@ -25,7 +25,7 @@ class RequestSender():
         session = self.get_session()
         req = Request(rest_request.method,
                       rest_request.url,
-                      data=rest_request.body,
+                      data=rest_request.body.encode('utf-8'),
                       headers=rest_request.headers)
         prepared_request = session.prepare_request(req)
         self.response = session.send(prepared_request)

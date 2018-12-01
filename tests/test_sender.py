@@ -50,7 +50,7 @@ def test_request_parts_sended(requests_send):
     assert prepared_request.method == 'POST'
     assert prepared_request.url == 'http://localhost/test'
     assert prepared_request.headers['Test-Header'] == '1234'
-    assert prepared_request.body == '{"test": "value"}'
+    assert prepared_request.body == b'{"test": "value"}'
 
 
 def test_response_saved_by_send(requests_send):
@@ -84,13 +84,13 @@ def test_method_url_in_unsuccessful_dump(unsuccessful_response):
     assert 'GET /test' in sender.dump()
 
 
-def test_session_not_reused(mocker, requests_send):
+def test_session_not_reused(requests_send):
     sender = RequestSender()
     sender.send(RESTRequest('GET', 'http://localhost/test'))
     assert not sender.session
 
 
-def test_persistent_session_reused(mocker, requests_send):
+def test_persistent_session_reused(requests_send):
     sender = RequestSender(keep_alive=True)
 
     sender.send(RESTRequest('GET', 'http://localhost/test'))
@@ -100,3 +100,11 @@ def test_persistent_session_reused(mocker, requests_send):
 
     sender.send(RESTRequest('GET', 'http://localhost/test'))
     assert sender.session == session
+
+
+def test_body_sended_as_bytes(requests_send):
+    sender = RequestSender()
+    sender.send(RESTRequest('POST', 'https://httpbin.org/post',
+                            body='{"\u03C0": "\u03C0"}'))
+    prepared_request = requests_send.call_args[0][0]
+    assert isinstance(prepared_request.body, bytes)
