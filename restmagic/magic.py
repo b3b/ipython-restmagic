@@ -1,6 +1,8 @@
 """restmagic.magic"""
 from __future__ import print_function
 
+import argparse
+import functools
 import sys
 
 from IPython.core import magic_arguments
@@ -23,6 +25,28 @@ from restmagic.request import RESTRequest
 from restmagic.sender import RequestSender
 
 
+def rest_arguments(func):
+    """Magic arguments shared by `rest` and `rest_root` commands.
+    """
+    args = (
+        magic_arguments.magic_arguments(),
+        magic_arguments.argument(
+            '--verbose', '-v',
+            action='store_true',
+            help='Dump full HTTP session log.',
+            default=None
+        ),
+        magic_arguments.argument(
+            '--quiet', '-q',
+            action='store_true',
+            help='Do not print HTTP request and response.',
+            default=None
+        ),
+        func
+    )
+    return functools.reduce(lambda res, f: f(res), reversed(args))
+
+
 @magics_class
 class RESTMagic(Magics, Configurable):
     """Provides the %%rest magic."""
@@ -32,6 +56,11 @@ class RESTMagic(Magics, Configurable):
     sender = Instance(RequestSender, allow_none=True, config=False)
     # Store default HTTP query values.
     root = Instance(RESTRequest, allow_none=True, config=False)
+    default_args = argparse.Namespace(
+        quiet=False,
+        verbose=False,
+    )
+    root_args = argparse.Namespace()
 
     @line_magic('rest_session')
     @magic_arguments.magic_arguments()
@@ -56,13 +85,18 @@ class RESTMagic(Magics, Configurable):
 
     @line_magic('rest_root')
     @cell_magic('rest_root')
+    @rest_arguments
+    @magic_arguments.argument('query', nargs='*')
     def rest_root(self, line, cell=''):
         """Set default HTTP query values, to be used by all subsequent queries.
         """
+        args = self.get_args(
+            magic_arguments.parse_argstring(self.rest_root, line)
+        )
         if line or cell:
             try:
                 self.root = parse_rest_request('\n'.join((
-                    line,
+                    ' '.join(args.query),
                     expand_variables(cell, self.get_user_namespace())
                 )))
             except ParseError as ex:
@@ -71,23 +105,21 @@ class RESTMagic(Magics, Configurable):
                 return
             else:
                 print('Requests defaults are set.')
+                self.root_args = args
         else:
             self.root = None
+            self.root_args = argparse.Namespace()
             print('Requests defaults are canceled.')
 
     @line_magic('rest')
     @cell_magic('rest')
-    @magic_arguments.magic_arguments()
-    @magic_arguments.argument('--verbose', '-v',
-                              action='store_true',
-                              help='Dump full HTTP session log.')
-    @magic_arguments.argument('--quiet', '-q',
-                              action='store_true',
-                              help='Do not print HTTP request and response.')
+    @rest_arguments
     @magic_arguments.argument('query', nargs='*')
     def rest(self, line, cell=''):
         """Run given HTTP query."""
-        args = magic_arguments.parse_argstring(self.rest, line)
+        args = self.get_args(
+            magic_arguments.parse_argstring(self.rest, line)
+        )
         try:
             rest_request = parse_rest_request('\n'.join((
                 ' '.join(args.query),
@@ -124,6 +156,16 @@ class RESTMagic(Magics, Configurable):
         """Returns namespace to be used for variables expansion.
         """
         return getattr(self.shell, 'user_ns', {}) if self.shell else {}
+
+    def get_args(self, command_args):
+        """Combines command arguments with default values.
+        """
+        combined = vars(self.default_args).copy()
+        for args in self.root_args, command_args:
+            combined.update({k: v
+                             for k, v in vars(args).items()
+                             if v is not None})
+        return argparse.Namespace(**combined)
 
 
 def load_ipython_extension(ipython):

@@ -1,3 +1,5 @@
+from argparse import Namespace
+
 import pytest
 from IPython import get_ipython
 
@@ -186,6 +188,21 @@ def test_root_is_canceled(ip):
     assert rest.root is None
 
 
+def test_root_args_saved(ip):
+    rest = ip.find_magic('rest').__self__
+    assert 'verbose' not in vars(rest.root_args)
+    ip.run_line_magic('rest_root', '-v')
+    assert rest.root_args.verbose is True
+
+
+def test_root_args_canceled(ip):
+    rest = ip.find_magic('rest').__self__
+    rest.root_args = Namespace(verbose=True)
+    assert rest.root_args != Namespace()
+    ip.run_line_magic('rest_root', '')
+    assert rest.root_args == Namespace()
+
+
 def test_send_exception_is_reported(ip, send):
     send.side_effect = Exception('test')
     result = ip.run_line_magic('rest_root', '')
@@ -199,3 +216,17 @@ def test_usage_displayed_on_parse_error(parse_rest_request,
     result = RESTMagic().rest('')
     assert result is None
     display_usage_example.assert_called_once()
+
+
+@pytest.mark.parametrize(
+    'root_args, args, expected', (
+        (Namespace(), Namespace(), False),
+        (Namespace(), Namespace(verbose=True), True),
+        (Namespace(verbose=True), Namespace(), True),
+        (Namespace(verbose=None), Namespace(), False),
+        (Namespace(verbose=True), Namespace(verbose=None), True),
+    ))
+def test_args_combined(root_args, args, expected):
+    rest = RESTMagic()
+    rest.root_args = root_args
+    assert rest.get_args(args).verbose == expected
