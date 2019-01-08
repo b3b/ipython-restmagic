@@ -30,6 +30,7 @@ def parse_rest_request(text):
     ^\s*  # possible whitespaces at the beginning
     ((?P<method>\w+)\s+)?  # optional method
     (?P<url>\S+)
+    ([ \t]+HTTP/\d+[.]?\d*)? # optional protocol version identification
     """, re.VERBOSE | re.MULTILINE)
     match = re.match(pattern, text)
     if not match:
