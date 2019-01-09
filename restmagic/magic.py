@@ -46,7 +46,15 @@ def rest_arguments(func):
         magic_arguments.argument(
             '--insecure', '-k',
             action='store_true',
-            help='disable SSL certificate verification.',
+            help='Disable SSL certificate verification.',
+            default=None
+        ),
+        magic_arguments.argument(
+            '--proxy',
+            type=str,
+            action='store',
+            dest='proxy',
+            help='Sets the proxy server to use for HTTP and HTTPS.',
             default=None
         ),
         func
@@ -67,6 +75,7 @@ class RESTMagic(Magics, Configurable):
         quiet=False,
         verbose=False,
         insecure=False,
+        proxy=None,
     )
     root_args = argparse.Namespace()
 
@@ -144,6 +153,7 @@ class RESTMagic(Magics, Configurable):
         try:
             response = sender.send(
                 RESTRequest('GET', 'https://') + root + rest_request,
+                proxy=args.proxy,
                 verify=not args.insecure,
             )
         except SSLError:

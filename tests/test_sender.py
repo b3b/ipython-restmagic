@@ -118,3 +118,17 @@ def test_verify_option_enabled(requests_send):
 
     sender.send(RESTRequest('GET', 'http://localhost/test'), verify=False)
     assert requests_send.call_args[1]['verify'] is False
+
+
+def test_proxy_option_enabled(requests_send):
+    sender = RequestSender()
+
+    sender.send(RESTRequest('GET', 'http://localhost/test'))
+    assert requests_send.call_args[1]['proxies'] == {}
+
+    sender.send(RESTRequest('GET', 'http://localhost/test'),
+                proxy='127.0.0.1:9000')
+    assert requests_send.call_args[1]['proxies'] == {
+        'http': '127.0.0.1:9000',
+        'https': '127.0.0.1:9000'
+    }

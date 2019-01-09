@@ -19,7 +19,7 @@ class RequestSender():
         self.response = None
         self.keep_alive = keep_alive
 
-    def send(self, rest_request, verify=True):
+    def send(self, rest_request, verify=True, proxy=None):
         """Send a given request.
 
         :param rest_request: :class:`RESTRequest` to send
@@ -31,12 +31,20 @@ class RequestSender():
                       data=rest_request.body.encode('utf-8'),
                       headers=rest_request.headers)
         prepared_request = session.prepare_request(req)
+        if proxy:
+            proxies = {
+                'http': proxy,
+                'https': proxy
+            }
+        else:
+            proxies = {}
         with warnings.catch_warnings():
             # suppress "Unverified HTTPS request is being made" warning
             warnings.filterwarnings("ignore", category=InsecureRequestWarning)
             self.response = session.send(
                 prepared_request,
                 verify=verify,
+                proxies=proxies,
             )
         return self.response
 

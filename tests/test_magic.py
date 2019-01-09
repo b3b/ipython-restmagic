@@ -245,3 +245,8 @@ def test_args_combined(root_args, args, expected):
 def test_insecure_option_handled(send):
     RESTMagic().rest(line='-k GET http://localhost')
     assert send.call_args[1]['verify'] is False
+
+
+def test_proxy_option_handled(send):
+    RESTMagic().rest(line='--proxy 127.0.0.1:9000 GET http://localhost')
+    assert send.call_args[1]['proxy'] == '127.0.0.1:9000'
