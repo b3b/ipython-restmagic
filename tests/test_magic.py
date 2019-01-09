@@ -1,6 +1,7 @@
 from argparse import Namespace
 
 import pytest
+from requests.exceptions import SSLError
 from IPython import get_ipython
 
 from restmagic.magic import RESTMagic
@@ -73,16 +74,16 @@ def test_root_values_are_added_to_query(parse_rest_request, send):
     rest.root = RESTRequest(method='POST', url='http://example.org')
     parse_rest_request.return_value = RESTRequest(url='test')
     rest.rest('GET test')
-    send.assert_called_once_with(RESTRequest(method='POST',
-                                             url='http://example.org/test'))
+    args = send.call_args[0]
+    assert args[0] == RESTRequest(method='POST', url='http://example.org/test')
 
 
 def test_default_method_and_scheme_added_to_query(parse_rest_request, send):
     rest = RESTMagic()
     parse_rest_request.return_value = RESTRequest(url='test')
     rest.rest('test')
-    send.assert_called_once_with(RESTRequest(method='GET',
-                                             url='https://test'))
+    args = send.call_args[0]
+    assert args[0] == RESTRequest(method='GET', url='https://test')
 
 
 def test_variables_expansion_used_by_rest_command(mocker, expand_variables):
@@ -218,6 +219,15 @@ def test_usage_displayed_on_parse_error(parse_rest_request,
     display_usage_example.assert_called_once()
 
 
+def test_insecure_option_hint_shown_on_ssl_cert_error(capsys, ip, send):
+    send.side_effect = SSLError()
+    result = ip.run_line_magic('rest', '')
+    assert result is None
+    assert ip.showtraceback.called_once()
+    err = capsys.readouterr()[1]
+    assert 'Use `%rest --insecure`' in err
+
+
 @pytest.mark.parametrize(
     'root_args, args, expected', (
         (Namespace(), Namespace(), False),
@@ -230,3 +240,8 @@ def test_args_combined(root_args, args, expected):
     rest = RESTMagic()
     rest.root_args = root_args
     assert rest.get_args(args).verbose == expected
+
+
+def test_insecure_option_handled(send):
+    RESTMagic().rest(line='-k GET http://localhost')
+    assert send.call_args[1]['verify'] is False

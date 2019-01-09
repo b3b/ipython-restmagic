@@ -108,3 +108,13 @@ def test_body_sended_as_bytes(requests_send):
                             body='{"\u03C0": "\u03C0"}'))
     prepared_request = requests_send.call_args[0][0]
     assert isinstance(prepared_request.body, bytes)
+
+
+def test_verify_option_enabled(requests_send):
+    sender = RequestSender()
+
+    sender.send(RESTRequest('GET', 'http://localhost/test'))
+    assert requests_send.call_args[1]['verify'] is True
+
+    sender.send(RESTRequest('GET', 'http://localhost/test'), verify=False)
+    assert requests_send.call_args[1]['verify'] is False

@@ -1,8 +1,11 @@
 """restmagic.sender"""
-from __future__ import unicode_literals
+from __future__ import print_function, unicode_literals
+
+import warnings
 
 from requests import Request, Session
 from requests_toolbelt.utils.dump import dump_all
+from urllib3.exceptions import InsecureRequestWarning
 
 
 class RequestSender():
@@ -16,7 +19,7 @@ class RequestSender():
         self.response = None
         self.keep_alive = keep_alive
 
-    def send(self, rest_request):
+    def send(self, rest_request, verify=True):
         """Send a given request.
 
         :param rest_request: :class:`RESTRequest` to send
@@ -28,7 +31,13 @@ class RequestSender():
                       data=rest_request.body.encode('utf-8'),
                       headers=rest_request.headers)
         prepared_request = session.prepare_request(req)
-        self.response = session.send(prepared_request)
+        with warnings.catch_warnings():
+            # suppress "Unverified HTTPS request is being made" warning
+            warnings.filterwarnings("ignore", category=InsecureRequestWarning)
+            self.response = session.send(
+                prepared_request,
+                verify=verify,
+            )
         return self.response
 
     def get_session(self):

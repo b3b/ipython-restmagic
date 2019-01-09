@@ -6,8 +6,8 @@ from IPython.display import display
 from IPython.display import HTML, Image, Pretty, SVG
 
 
-LINE_MAGIC_USAGE = """%{magic} GET https://httpbin.org/json"""
-CELL_MAGIC_USAGE = """%%{magic}
+LINE_MAGIC_USAGE = """%{magic} --insecure GET https://httpbin.org/json"""
+CELL_MAGIC_USAGE = """%%{magic} --insecure
 POST https://httpbin.org/post
 Header: value
 

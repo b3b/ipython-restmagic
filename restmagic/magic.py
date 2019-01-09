@@ -12,6 +12,7 @@ from IPython.core.magic import (
     line_magic,
     magics_class,
 )
+from requests.exceptions import SSLError
 from traitlets.config.configurable import Configurable
 from traitlets import Instance
 
@@ -42,6 +43,12 @@ def rest_arguments(func):
             help='Do not print HTTP request and response.',
             default=None
         ),
+        magic_arguments.argument(
+            '--insecure', '-k',
+            action='store_true',
+            help='disable SSL certificate verification.',
+            default=None
+        ),
         func
     )
     return functools.reduce(lambda res, f: f(res), reversed(args))
@@ -59,6 +66,7 @@ class RESTMagic(Magics, Configurable):
     default_args = argparse.Namespace(
         quiet=False,
         verbose=False,
+        insecure=False,
     )
     root_args = argparse.Namespace()
 
@@ -135,8 +143,14 @@ class RESTMagic(Magics, Configurable):
 
         try:
             response = sender.send(
-                RESTRequest('GET', 'https://') + root + rest_request
+                RESTRequest('GET', 'https://') + root + rest_request,
+                verify=not args.insecure,
             )
+        except SSLError:
+            print("Use `%rest --insecure` option to disable "
+                  "SSL certificate verification.", file=sys.stderr)
+            self.shell.showtraceback(exception_only=True)
+            return None
         except Exception:
             print("Request was not completed.", file=sys.stderr)
             self.shell.showtraceback(exception_only=True)
