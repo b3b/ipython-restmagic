@@ -24,6 +24,12 @@ def unsuccessful_response():
                         headers={'Test-Header': '111'})
 
 
+@pytest.fixture
+def requests_send(mocker):
+    return mocker.patch('restmagic.sender.Session.send',
+                        return_value='test sended')
+
+
 @responses.activate
 def test_request_sended():
     responses.add(responses.GET, re.compile('.*'))
@@ -31,12 +37,6 @@ def test_request_sended():
     RequestSender().send(RESTRequest('GET', 'http://localhost/test1'))
     assert len(responses.calls) == 1
     assert responses.calls[0].request.url == 'http://localhost/test1'
-
-
-@pytest.fixture
-def requests_send(mocker):
-    return mocker.patch('restmagic.sender.Session.send',
-                        return_value='test sended')
 
 
 def test_request_parts_sended(requests_send):
@@ -132,3 +132,17 @@ def test_proxy_option_enabled(requests_send):
         'http': '127.0.0.1:9000',
         'https': '127.0.0.1:9000'
     }
+
+
+def test_max_redirects_option_enabled(mocker, requests_send):
+    sender = RequestSender()
+    session = requests.Session()
+    mocker.patch('restmagic.sender.RequestSender.get_session',
+                 return_value=session)
+
+    sender.send(RESTRequest('GET', 'http://localhost/test'))
+    assert session.max_redirects is None
+
+    sender.send(RESTRequest('GET', 'http://localhost/test'),
+                max_redirects=3)
+    assert session.max_redirects == 3

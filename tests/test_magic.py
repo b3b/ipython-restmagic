@@ -250,3 +250,11 @@ def test_insecure_option_handled(send):
 def test_proxy_option_handled(send):
     RESTMagic().rest(line='--proxy 127.0.0.1:9000 GET http://localhost')
     assert send.call_args[1]['proxy'] == '127.0.0.1:9000'
+
+
+def test_max_redirects_option_handled(send):
+    RESTMagic().rest(line='GET http://localhost')
+    assert send.call_args[1]['max_redirects'] == 30
+
+    RESTMagic().rest(line='--max-redirects 0 GET http://localhost')
+    assert send.call_args[1]['max_redirects'] == 0

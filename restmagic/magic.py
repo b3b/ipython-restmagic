@@ -13,6 +13,7 @@ from IPython.core.magic import (
     magics_class,
 )
 from requests.exceptions import SSLError
+from requests.models import DEFAULT_REDIRECT_LIMIT
 from traitlets.config.configurable import Configurable
 from traitlets import Instance
 
@@ -57,6 +58,15 @@ def rest_arguments(func):
             help='Sets the proxy server to use for HTTP and HTTPS.',
             default=None
         ),
+        magic_arguments.argument(
+            '--max-redirects',
+            type=int,
+            action='store',
+            dest='max_redirects',
+            help=("Set the maximum number of redirects allowed, "
+                  "{0} by default.".format(DEFAULT_REDIRECT_LIMIT)),
+            default=None
+        ),
         func
     )
     return functools.reduce(lambda res, f: f(res), reversed(args))
@@ -76,6 +86,7 @@ class RESTMagic(Magics, Configurable):
         verbose=False,
         insecure=False,
         proxy=None,
+        max_redirects=DEFAULT_REDIRECT_LIMIT,
     )
     root_args = argparse.Namespace()
 
@@ -155,6 +166,7 @@ class RESTMagic(Magics, Configurable):
                 RESTRequest('GET', 'https://') + root + rest_request,
                 proxy=args.proxy,
                 verify=not args.insecure,
+                max_redirects=args.max_redirects,
             )
         except SSLError:
             print("Use `%rest --insecure` option to disable "

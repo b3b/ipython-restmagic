@@ -19,13 +19,14 @@ class RequestSender():
         self.response = None
         self.keep_alive = keep_alive
 
-    def send(self, rest_request, verify=True, proxy=None):
+    def send(self, rest_request, verify=True, proxy=None, max_redirects=None):
         """Send a given request.
 
         :param rest_request: :class:`RESTRequest` to send
         :rtype: requests.Response
         """
         session = self.get_session()
+        session.max_redirects = max_redirects
         req = Request(rest_request.method,
                       rest_request.url,
                       data=rest_request.body.encode('utf-8'),
@@ -43,8 +44,8 @@ class RequestSender():
             warnings.filterwarnings("ignore", category=InsecureRequestWarning)
             self.response = session.send(
                 prepared_request,
-                verify=verify,
                 proxies=proxies,
+                verify=verify,
             )
         return self.response
 
