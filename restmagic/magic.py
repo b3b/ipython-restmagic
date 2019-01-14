@@ -92,6 +92,8 @@ class RESTMagic(Magics, Configurable):
     sender = Instance(RequestSender, allow_none=True, config=False)
     # Store default HTTP query values.
     root = Instance(RESTRequest, allow_none=True, config=False)
+    # Store default query options.
+    root_args = Instance(argparse.Namespace, kw={})
     default_args = argparse.Namespace(
         quiet=False,
         verbose=False,
@@ -100,7 +102,6 @@ class RESTMagic(Magics, Configurable):
         proxy=None,
         timeout=DEFAULT_TIMEOUT,
     )
-    root_args = argparse.Namespace()
 
     @line_magic('rest_session')
     @magic_arguments.magic_arguments()

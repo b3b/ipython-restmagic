@@ -24,6 +24,10 @@ class RequestSender():
         """Send a given request.
 
         :param rest_request: :class:`RESTRequest` to send
+        :param verify: disable SSL cert verification if False
+        :param proxy: proxy server to use
+        :param max_redirects: maximum number of redirects allowed
+        :param timeout: maximum number of seconds to wait for a response
         :rtype: requests.Response
         """
         session = self.get_session()
