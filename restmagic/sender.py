@@ -19,7 +19,8 @@ class RequestSender():
         self.response = None
         self.keep_alive = keep_alive
 
-    def send(self, rest_request, verify=True, proxy=None, max_redirects=None):
+    def send(self, rest_request, verify=True, proxy=None,  # pylint: disable=too-many-arguments
+             max_redirects=None, timeout=None):
         """Send a given request.
 
         :param rest_request: :class:`RESTRequest` to send
@@ -45,6 +46,7 @@ class RequestSender():
             self.response = session.send(
                 prepared_request,
                 proxies=proxies,
+                timeout=timeout,
                 verify=verify,
             )
         return self.response

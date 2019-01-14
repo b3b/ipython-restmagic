@@ -258,3 +258,11 @@ def test_max_redirects_option_handled(send):
 
     RESTMagic().rest(line='--max-redirects 0 GET http://localhost')
     assert send.call_args[1]['max_redirects'] == 0
+
+
+def test_timeout_option_handled(send):
+    RESTMagic().rest(line='GET http://localhost')
+    assert send.call_args[1]['timeout'] == 10
+
+    RESTMagic().rest(line='--timeout 1.01 GET http://localhost')
+    assert send.call_args[1]['timeout'] == 1.01

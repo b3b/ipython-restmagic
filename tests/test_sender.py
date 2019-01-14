@@ -146,3 +146,14 @@ def test_max_redirects_option_enabled(mocker, requests_send):
     sender.send(RESTRequest('GET', 'http://localhost/test'),
                 max_redirects=3)
     assert session.max_redirects == 3
+
+
+def test_timeout_option_enabled(mocker, requests_send):
+    sender = RequestSender()
+
+    sender.send(RESTRequest('GET', 'http://localhost/test'))
+    assert requests_send.call_args[1]['timeout'] is None
+
+    sender.send(RESTRequest('GET', 'http://localhost/test'),
+                timeout=0.01)
+    assert requests_send.call_args[1]['timeout'] == 0.01

@@ -26,6 +26,8 @@ from restmagic.parser import (
 from restmagic.request import RESTRequest
 from restmagic.sender import RequestSender
 
+DEFAULT_TIMEOUT = 10
+
 
 def rest_arguments(func):
     """Magic arguments shared by `rest` and `rest_root` commands.
@@ -67,6 +69,15 @@ def rest_arguments(func):
                   "{0} by default.".format(DEFAULT_REDIRECT_LIMIT)),
             default=None
         ),
+        magic_arguments.argument(
+            '--timeout',
+            type=float,
+            action='store',
+            dest='timeout',
+            help=("Set the maximum number of seconds to wait for a response, "
+                  "{0} by default.".format(DEFAULT_TIMEOUT)),
+            default=None
+        ),
         func
     )
     return functools.reduce(lambda res, f: f(res), reversed(args))
@@ -85,8 +96,9 @@ class RESTMagic(Magics, Configurable):
         quiet=False,
         verbose=False,
         insecure=False,
-        proxy=None,
         max_redirects=DEFAULT_REDIRECT_LIMIT,
+        proxy=None,
+        timeout=DEFAULT_TIMEOUT,
     )
     root_args = argparse.Namespace()
 
@@ -167,6 +179,7 @@ class RESTMagic(Magics, Configurable):
                 proxy=args.proxy,
                 verify=not args.insecure,
                 max_redirects=args.max_redirects,
+                timeout=args.timeout,
             )
         except SSLError:
             print("Use `%rest --insecure` option to disable "
