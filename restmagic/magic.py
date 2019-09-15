@@ -17,11 +17,16 @@ from requests.models import DEFAULT_REDIRECT_LIMIT
 from traitlets.config.configurable import Configurable
 from traitlets import Instance
 
-from restmagic.display import display_response, display_usage_example
+from restmagic.display import (
+    display_dict,
+    display_response,
+    display_usage_example,
+)
 from restmagic.parser import (
     ParseError,
     expand_variables,
     parse_rest_request,
+    parse_response,
 )
 from restmagic.request import RESTRequest
 from restmagic.sender import RequestSender
@@ -50,6 +55,14 @@ def rest_arguments(func):
             '--insecure', '-k',
             action='store_true',
             help='Disable SSL certificate verification.',
+            default=None
+        ),
+        magic_arguments.argument(
+            '--re', '-[',
+            type=str,
+            action='store',
+            dest='regex',
+            help='Extract a portion of a response body.',
             default=None
         ),
         magic_arguments.argument(
@@ -98,6 +111,7 @@ class RESTMagic(Magics, Configurable):
         quiet=False,
         verbose=False,
         insecure=False,
+        regex=None,
         max_redirects=DEFAULT_REDIRECT_LIMIT,
         proxy=None,
         timeout=DEFAULT_TIMEOUT,
@@ -196,7 +210,10 @@ class RESTMagic(Magics, Configurable):
             print(sender.dump())
         elif not args.quiet:
             try:
-                display_response(response)
+                if args.regex:
+                    display_dict(parse_response(response, args.regex))
+                else:
+                    display_response(response)
             except Exception:
                 print("Can't display the response.", file=sys.stderr)
                 self.shell.showtraceback(exception_only=True)

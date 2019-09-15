@@ -80,3 +80,4 @@ Related resources
 * `ipython-sql <https://github.com/catherinedevlin/ipython-sql>`__ : was used as an example of IPython magic
 * `python-requests <https://github.com/requests/requests>`__ : used for HTTP requests
 * `requests-toolbelt <https://github.com/requests/toolbelt>`__ : used for HTTP sessions information dumping
+* `jsonpath-rw <https://github.com/kennknowles/python-jsonpath-rw>`__ : used for parsing JSON responses

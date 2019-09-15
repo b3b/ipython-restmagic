@@ -5,6 +5,7 @@ from restmagic.parser import (
     RESTRequest,
     expand_variables,
     parse_rest_request,
+    parse_response,
 )
 
 
@@ -158,3 +159,20 @@ def test_request_body_parsed(value, expected):
 )
 def test_variables_expanded(text, kwargs, expected):
     assert expand_variables(text, kwargs) == expected
+
+
+def test_json_response_parsed():
+
+    class Response:
+
+        def json(self):
+            return {
+                'store': {
+                    'book': [
+                        {'title': 'Book 1'},
+                        {'title': 'Book 2'},
+                    ]
+                }
+            }
+
+    assert parse_response(Response(), '$.store.book[1].title') == {'store.book.[1].title': 'Book 2'}

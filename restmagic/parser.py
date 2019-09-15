@@ -2,6 +2,8 @@
 import re
 from string import Template
 
+import jsonpath_rw
+
 from restmagic.request import RESTRequest
 
 
@@ -30,7 +32,7 @@ def parse_rest_request(text):
     ^\s*  # possible whitespaces at the beginning
     ((?P<method>\w+)\s+)?  # optional method
     (?P<url>\S+)
-    ([ \t]+HTTP/\d+[.]?\d*)? # optional protocol version identification
+    ([ \t]+HTTP/\d+[.]?\d*)?  # optional protocol version identification
     """, re.VERBOSE | re.MULTILINE)
     match = re.match(pattern, text)
     if not match:
@@ -67,3 +69,19 @@ def parse_rest_headers(text):
                 raise ParseError("Bad header: \"{0}\".".format(line))
             headers[match.group('name')] = match.group('value')
     return headers
+
+
+def parse_response(response, expression):
+    """Parse response with a given JSONPath expression.
+
+    :param response: :class:`request.Response`
+    :param expression: JSONPath query string
+    :returns: dict -- parsed response
+    :raises: jsonpath_rw.lexer.JsonPathLexerError, json.JSONDecodeError,
+             Exception
+    """
+    data = response.json()
+    return {
+        str(match.full_path): match.value
+        for match in jsonpath_rw.parse(expression).find(data)
+    }

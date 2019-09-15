@@ -2,7 +2,7 @@
 import re
 
 
-class RESTRequest():
+class RESTRequest:
     """Contains parsed HTTP query."""
 
     def __init__(self, method='', url='', headers=None, body=''):

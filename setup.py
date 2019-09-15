@@ -20,6 +20,7 @@ setup(
     install_requires=[
         'ipython>=1.0',
         'requests-toolbelt>=0.8.0',
+        'jsonpath-rw>=1.4.0',
         'six',
     ],
     url='https://github.com/b3b/ipython-restmagic',

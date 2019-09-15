@@ -29,6 +29,14 @@ def display_usage_example(magic, error_text, is_cell_magic):
     display(HTML('<pre>' + text.format(magic=magic) + '</pre>'))
 
 
+def display_dict(data):
+    """Display the pretty representation of the dictionary.
+
+    :param data: dict
+    """
+    display(Pretty(json.dumps(data, indent=2, ensure_ascii=False)))
+
+
 def display_response(response):
     """Display the pretty representation of the given HTTP response.
 
@@ -38,8 +46,7 @@ def display_response(response):
         return
     mime_type = get_mime_type(response)
     if mime_type == 'application/json':
-        display(Pretty(json.dumps(response.json(), indent=2,
-                                  ensure_ascii=False)))
+        display_dict(response.json())
     elif mime_type == 'text/html':
         display(HTML(response.text))
     elif mime_type == 'image/svg+xml':
