@@ -1,6 +1,4 @@
 """restmagic.sender"""
-from __future__ import print_function, unicode_literals
-
 import warnings
 
 from requests import Request, Session

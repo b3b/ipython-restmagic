@@ -1,6 +1,4 @@
 """restmagic.magic"""
-from __future__ import print_function
-
 import argparse
 import functools
 import sys

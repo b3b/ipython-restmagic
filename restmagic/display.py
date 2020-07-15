@@ -1,5 +1,4 @@
 """restmagic.display"""
-from __future__ import print_function
 import json
 import sys
 from IPython.display import display
