@@ -195,13 +195,11 @@ class RESTMagic(Magics, Configurable):
                 timeout=args.timeout,
             )
         except SSLError:
-            print("Use `%rest --insecure` option to disable "
-                  "SSL certificate verification.", file=sys.stderr)
-            self.shell.showtraceback(exception_only=True)
+            self.showtraceback('Use `%rest --insecure` option to disable '
+                               'SSL certificate verification.')
             return None
         except Exception:
-            print("Request was not completed.", file=sys.stderr)
-            self.shell.showtraceback(exception_only=True)
+            self.showtraceback('Request was not completed.')
             return None
 
         if args.verbose and not args.quiet:
@@ -213,8 +211,7 @@ class RESTMagic(Magics, Configurable):
                 else:
                     display_response(response)
             except Exception:
-                print("Can't display the response.", file=sys.stderr)
-                self.shell.showtraceback(exception_only=True)
+                self.showtraceback("Can't display the response.")
         return response
 
     def get_user_namespace(self):
@@ -231,6 +228,21 @@ class RESTMagic(Magics, Configurable):
                              for k, v in vars(args).items()
                              if v is not None})
         return argparse.Namespace(**combined)
+
+    def showtraceback(self, message=None):
+        """Display the exception that just occurred, and optional message.
+        Do not show chained exceptions.
+        """
+        if message:
+            print(message, file=sys.stderr)
+        if self.shell:
+            try:
+                # Reraise original exception, suppressing the context.
+                raise sys.exc_info()[1] from None
+            except Exception:
+                self.shell.showtraceback(exception_only=True)
+        else:
+            raise sys.exc_info()[1]
 
 
 def load_ipython_extension(ipython):
