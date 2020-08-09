@@ -1,8 +1,12 @@
 """restmagic.parser"""
+import json
 import re
 from string import Template
+from typing import Any, Callable, Dict
 
 import jsonpath_rw
+from lxml import etree
+from requests import Response
 
 from restmagic.request import RESTRequest
 
@@ -71,17 +75,84 @@ def parse_rest_headers(text):
     return headers
 
 
-def parse_response(response, expression):
+def parse_json_response(*, response, expression):
     """Parse response with a given JSONPath expression.
 
     :param response: :class:`request.Response`
     :param expression: JSONPath query string
     :returns: dict -- parsed response
     :raises: jsonpath_rw.lexer.JsonPathLexerError, json.JSONDecodeError,
-             Exception
     """
     data = response.json()
     return {
         str(match.full_path): match.value
         for match in jsonpath_rw.parse(expression).find(data)
     }
+
+
+class XPathParser:
+    """Parser for XML and HTML responses.
+
+    :cvar parsers: mapping of supported content subtypes to lxml parsers
+    """
+
+    parsers = {
+        'html': etree.HTML,
+        'xml': etree.XML,
+    }
+
+    def __init__(self, content_subtype: str):
+        self.parser: Callable[[str], etree._Element] = self.parsers[content_subtype]
+
+    def __call__(self, *, response: Response, expression: str) -> Dict[str, Any]:
+        """Parse response with a given XPath expression.
+
+        :param response: HTTP response to parse
+        :param expression: XPath query string
+        :returns: parsed response
+        :raises: etree.LxmlError
+        """
+        root: etree._Element = self.parser(response.content)
+        if root is not None:
+            tree: etree._ElementTree = root.getroottree()
+            return {
+                tree.getpath(element): etree.tostring(
+                    element, encoding='unicode', pretty_print=True
+                )
+                for element in root.xpath(expression)
+            }
+        return {}
+
+
+def guess_response_content_subtype(response: Response) -> str:
+    """Returns guessed content subtype of a HTTP response.
+    """
+    try:
+        response.json()
+    except json.JSONDecodeError:
+        return 'html'
+    return 'json'
+
+
+class ResponseParser:
+    """HTTP response parser. Extracts parts of response content.
+
+    :cvar parsers: mapping of supported content subtypes to parsers
+    """
+
+    parsers = {
+        'json': parse_json_response,
+        'xml': XPathParser('xml'),
+        'html': XPathParser('html'),
+    }
+
+    def __init__(self, *, response: Response, expression: str, content_subtype: str = None):
+        if not content_subtype:
+            content_subtype = guess_response_content_subtype(response)
+        self.parser = self.parsers[content_subtype]
+        self.response = response
+        self.expression = expression
+
+    def parse(self) -> Dict[str, Any]:
+        """Perform parsing."""
+        return self.parser(response=self.response, expression=self.expression)

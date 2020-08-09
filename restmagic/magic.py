@@ -22,9 +22,9 @@ from restmagic.display import (
 )
 from restmagic.parser import (
     ParseError,
+    ResponseParser,
     expand_variables,
     parse_rest_request,
-    parse_response,
 )
 from restmagic.request import RESTRequest
 from restmagic.sender import RequestSender
@@ -56,14 +56,6 @@ def rest_arguments(func):
             default=None
         ),
         magic_arguments.argument(
-            '--re', '-[',
-            type=str,
-            action='store',
-            dest='regex',
-            help='Extract a portion of a response body.',
-            default=None
-        ),
-        magic_arguments.argument(
             '--proxy',
             type=str,
             action='store',
@@ -89,6 +81,24 @@ def rest_arguments(func):
                   "{0} by default.".format(DEFAULT_TIMEOUT)),
             default=None
         ),
+        magic_arguments.argument(
+            '--extract', '-[',
+            type=str,
+            action='store',
+            dest='parser_expression',
+            metavar='expression',
+            help='Extract parts of a response content with the given Xpath/JSONPath expression.',
+            default=None
+        ),
+        magic_arguments.argument(
+            '--parser',
+            type=str,
+            action='store',
+            dest='parser',
+            help='Set which parser to use to extract parts of a response content.',
+            choices=ResponseParser.parsers,
+            default=None
+        ),
         func
     )
     return functools.reduce(lambda res, f: f(res), reversed(args))
@@ -109,7 +119,8 @@ class RESTMagic(Magics, Configurable):
         quiet=False,
         verbose=False,
         insecure=False,
-        regex=None,
+        parser=None,
+        parser_expression=None,
         max_redirects=DEFAULT_REDIRECT_LIMIT,
         proxy=None,
         timeout=DEFAULT_TIMEOUT,
@@ -206,8 +217,12 @@ class RESTMagic(Magics, Configurable):
             print(sender.dump())
         elif not args.quiet:
             try:
-                if args.regex:
-                    display_dict(parse_response(response, args.regex))
+                if args.parser_expression:
+                    display_dict(
+                        ResponseParser(response=response,
+                                       expression=args.parser_expression,
+                                       content_subtype=args.parser).parse()
+                    )
                 else:
                     display_response(response)
             except Exception:

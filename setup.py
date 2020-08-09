@@ -21,6 +21,7 @@ setup(
         'ipython>=1.0',
         'requests-toolbelt>=0.8.0',
         'jsonpath-rw>=1.4.0',
+        'lxml>=4.4.0',
     ],
     url='https://github.com/b3b/ipython-restmagic',
     # https://pypi.org/classifiers/

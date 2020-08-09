@@ -1,4 +1,5 @@
 from argparse import Namespace
+from unittest import mock
 
 import pytest
 from requests.exceptions import SSLError
@@ -58,9 +59,8 @@ def display_response(mocker):
 
 
 @pytest.fixture
-def parse_response(mocker):
-    return mocker.patch('restmagic.magic.parse_response',
-                        return_value='test parsed response')
+def response_parser(mocker):
+    return mocker.patch('restmagic.magic.ResponseParser')
 
 
 @pytest.fixture(autouse=True)
@@ -279,23 +279,18 @@ def test_timeout_option_handled(send):
     assert send.call_args[1]['timeout'] == 1.01
 
 
-@pytest.mark.parametrize('option', ('--re', '-['))
-def test_re_option_handled(send, display_dict, display_response,
-                           parse_response, option):
-    result = RESTMagic().rest(
-        line="{option} $.store.book[0] GET http://localhost".format(
-            option=option)
-    )
-    parse_response.assert_called_once_with('test sended', '$.store.book[0]')
-    assert display_response.call_count == 0
-    assert display_dict.call_count == 1
-    assert result == 'test sended'
+@pytest.mark.parametrize('parser', ('json', 'xml', 'html'))
+def test_parser_option_handled(send, display_dict, display_response,
+                               response_parser, parser):
+    RESTMagic().rest(line=f"--parser {parser} -[ test GET http://localhost")
+    response_parser.assert_called_once_with(response=mock.ANY, expression=mock.ANY,
+                                            content_subtype=parser)
 
 
-def test_traceback_is_shown_if_parse_reponse_fail(ip, parse_response,
+def test_traceback_is_shown_if_parse_reponse_fail(ip, response_parser,
                                                   showtraceback):
-    parse_response.side_effect = Exception()
+    response_parser.side_effect = Exception()
     result = ip.run_cell_magic('rest', '-[ $.*', 'GET /')
     showtraceback.assert_called_once()
-    assert parse_response.call_count == 1
+    assert response_parser.call_count == 1
     assert result == 'test sended'
