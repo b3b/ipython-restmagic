@@ -12,6 +12,7 @@ from restmagic.parser import (
     parse_rest_request,
     guess_response_content_subtype,
     parse_json_response,
+    remove_argument_quotes,
 )
 
 
@@ -223,3 +224,17 @@ def test_guess_response_content_subtype(response, expected):
 
 def test_response_parser(json_response):
     ResponseParser(response=json_response, expression=None)
+
+
+@pytest.mark.parametrize(
+    'text, expected', (
+        ('', ''),
+        ('test', 'test'),
+        ('"test test"', 'test test'),
+        ("'test test'", 'test test'),
+        ("'test' 'test' \"test\"", "test 'test' \"test\""),
+        ("test 'test'", "test 'test'"),
+    )
+)
+def test_quotes_removed_from_argument(text, expected):
+    remove_argument_quotes(text) == expected

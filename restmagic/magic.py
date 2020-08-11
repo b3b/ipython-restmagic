@@ -25,6 +25,7 @@ from restmagic.parser import (
     ResponseParser,
     expand_variables,
     parse_rest_request,
+    remove_argument_quotes,
 )
 from restmagic.request import RESTRequest
 from restmagic.sender import RequestSender
@@ -220,7 +221,7 @@ class RESTMagic(Magics, Configurable):
                 if args.parser_expression:
                     display_dict(
                         ResponseParser(response=response,
-                                       expression=args.parser_expression,
+                                       expression=remove_argument_quotes(args.parser_expression),
                                        content_subtype=args.parser).parse()
                     )
                 else:

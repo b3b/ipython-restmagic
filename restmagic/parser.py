@@ -15,6 +15,14 @@ class ParseError(Exception):
     """Query parsing error occured."""
 
 
+def remove_argument_quotes(text: str) -> str:
+    """Remove single and double outer quotes from text.
+    """
+    if re.match(r'^(\'.*\')|(".*")$', text or ''):
+        return text[1:-1]
+    return text
+
+
 def expand_variables(text, kwargs):
     """Expand python variables in a string.
 

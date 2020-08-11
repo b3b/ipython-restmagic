@@ -279,6 +279,29 @@ def test_timeout_option_handled(send):
     assert send.call_args[1]['timeout'] == 1.01
 
 
+@pytest.mark.parametrize('option', ('-[', '--extract'))
+def test_extract_option_handled(send, display_dict, display_response,
+                                response_parser, option):
+    RESTMagic().rest(line=f"{option} test GET http://localhost")
+    response_parser.assert_called_once_with(response='test sended', expression='test',
+                                            content_subtype=None)
+    display_dict.assert_called_once()
+
+
+@pytest.mark.parametrize(
+    'line, expected_expression', (
+        ('-[ "a b"', 'a b'),
+        ('--extract \'/[name() = "svg"]\'', '/[name() = "svg"]'),
+    )
+)
+def test_extract_option_quoted_expression_handled(send, display_dict, display_response,
+                                                  response_parser, line, expected_expression):
+    RESTMagic().rest(line=f"{line} test GET http://localhost")
+    response_parser.assert_called_once_with(response='test sended', expression=expected_expression,
+                                            content_subtype=None)
+    display_dict.assert_called_once()
+
+
 @pytest.mark.parametrize('parser', ('json', 'xml', 'html'))
 def test_parser_option_handled(send, display_dict, display_response,
                                response_parser, parser):
