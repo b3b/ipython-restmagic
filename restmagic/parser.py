@@ -1,5 +1,4 @@
 """restmagic.parser"""
-import json
 import re
 from string import Template
 from typing import Any, Callable, Dict
@@ -9,10 +8,15 @@ from lxml import etree
 from requests import Response
 
 from restmagic.request import RESTRequest
+from restmagic.response import guess_response_content_subtype
 
 
 class ParseError(Exception):
     """Query parsing error occured."""
+
+
+class UnknownSubtype(Exception):
+    """Could not determine the subtype of response content."""
 
 
 def remove_argument_quotes(text: str) -> str:
@@ -132,20 +136,11 @@ class XPathParser:
         return {}
 
 
-def guess_response_content_subtype(response: Response) -> str:
-    """Returns guessed content subtype of a HTTP response.
-    """
-    try:
-        response.json()
-    except json.JSONDecodeError:
-        return 'html'
-    return 'json'
-
-
 class ResponseParser:
     """HTTP response parser. Extracts parts of response content.
 
     :cvar parsers: mapping of supported content subtypes to parsers
+    :raises: UnknownSubtype
     """
 
     parsers = {
@@ -157,7 +152,10 @@ class ResponseParser:
     def __init__(self, *, response: Response, expression: str, content_subtype: str = None):
         if not content_subtype:
             content_subtype = guess_response_content_subtype(response)
-        self.parser = self.parsers[content_subtype]
+        try:
+            self.parser = self.parsers[content_subtype]
+        except KeyError:
+            raise UnknownSubtype("Can't guess response content subtype.") from None
         self.response = response
         self.expression = expression
 

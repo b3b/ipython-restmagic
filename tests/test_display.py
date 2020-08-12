@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 import pytest
 
-from restmagic.display import display_response, get_mime_type
+from restmagic.display import display_response
 
 
 @pytest.fixture
@@ -27,18 +27,6 @@ def response(mocker):
 @pytest.fixture
 def ipython_display(mocker):
     return mocker.patch('restmagic.display.display')
-
-
-@pytest.mark.parametrize(
-    'headers, expected', (
-        ({}, None),
-        ({'content-type': 'application/json'}, 'application/json'),
-        ({'content-type': 'text/html; charset=utf-8'}, 'text/html'),
-    ))
-def test_mime_type_detected(mocker, headers, expected):
-    response = mocker.Mock()
-    response.headers = headers
-    assert get_mime_type(response) == expected
 
 
 @pytest.mark.parametrize('mime_type', (

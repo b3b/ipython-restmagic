@@ -23,6 +23,7 @@ from restmagic.display import (
 from restmagic.parser import (
     ParseError,
     ResponseParser,
+    UnknownSubtype,
     expand_variables,
     parse_rest_request,
     remove_argument_quotes,
@@ -226,6 +227,8 @@ class RESTMagic(Magics, Configurable):
                     )
                 else:
                     display_response(response)
+            except UnknownSubtype:
+                self.showtraceback("Use `%rest --parser` to specify which parser to use.")
             except Exception:
                 self.showtraceback("Can't display the response.")
         return response

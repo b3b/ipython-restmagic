@@ -4,6 +4,8 @@ import sys
 from IPython.display import display
 from IPython.display import HTML, Image, Pretty, SVG
 
+from restmagic.response import get_mime_type
+
 
 LINE_MAGIC_USAGE = """%{magic} --insecure GET https://httpbin.org/json"""
 CELL_MAGIC_USAGE = """%%{magic} --insecure
@@ -54,14 +56,3 @@ def display_response(response):
         display(Image(response.content))
     else:
         display(Pretty(response.text))
-
-
-def get_mime_type(response):
-    """Returns the MIME type of the given HTTP response.
-
-    :param response: :class:`request.Response`
-    """
-    content_type = response.headers.get('content-type')
-    if content_type:
-        return content_type.split(';')[0].strip().lower()
-    return None

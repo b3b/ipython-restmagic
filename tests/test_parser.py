@@ -1,25 +1,18 @@
-import io
-
 import pytest
-import requests
 
 from restmagic.parser import (
     ParseError,
     RESTRequest,
     XPathParser,
     ResponseParser,
+    UnknownSubtype,
     expand_variables,
     parse_rest_request,
-    guess_response_content_subtype,
     parse_json_response,
     remove_argument_quotes,
 )
 
-
-def response_with_content(content):
-    response = requests.Response()
-    response.raw = io.BytesIO(content)
-    return response
+from .utils import response_with_content
 
 
 @pytest.fixture
@@ -211,19 +204,17 @@ def test_xml_response_parsed(xml_response):
     }
 
 
-@pytest.mark.parametrize(
-    'response, expected', [
-        (response_with_content(b'{}'), 'json'),
-        (response_with_content(b'<html></html>'), 'html'),
-        (response_with_content(b''), 'html'),
-    ]
-)
-def test_guess_response_content_subtype(response, expected):
-    assert guess_response_content_subtype(response) == expected
+@pytest.mark.parametrize('subtype', ('json', 'xml', 'html'))
+def test_response_parser_known_subtype(json_response, subtype):
+    parser = ResponseParser(response=json_response, expression=None, content_subtype=subtype)
+    assert parser.parser
 
 
-def test_response_parser(json_response):
-    ResponseParser(response=json_response, expression=None)
+@pytest.mark.parametrize('subtype', ('text', None))
+def test_response_parser_unknown_subtype(json_response, subtype):
+    with pytest.raises(UnknownSubtype):
+        ResponseParser(response=response_with_content(b''), expression=None,
+                       content_subtype=subtype)
 
 
 @pytest.mark.parametrize(

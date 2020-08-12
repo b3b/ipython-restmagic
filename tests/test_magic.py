@@ -6,7 +6,7 @@ from requests.exceptions import SSLError
 from IPython import get_ipython
 
 from restmagic.magic import RESTMagic
-from restmagic.parser import ParseError
+from restmagic.parser import ParseError, UnknownSubtype
 from restmagic.request import RESTRequest
 
 
@@ -310,10 +310,17 @@ def test_parser_option_handled(send, display_dict, display_response,
                                             content_subtype=parser)
 
 
-def test_traceback_is_shown_if_parse_reponse_fail(ip, response_parser,
-                                                  showtraceback):
+def test_traceback_is_shown_if_parse_reponse_fail(ip, response_parser, showtraceback):
     response_parser.side_effect = Exception()
     result = ip.run_cell_magic('rest', '-[ $.*', 'GET /')
     showtraceback.assert_called_once()
     assert response_parser.call_count == 1
     assert result == 'test sended'
+
+
+def test_parser_option_hint_shown_on_unknown_subtype(capsys, ip, response_parser, showtraceback):
+    response_parser.side_effect = UnknownSubtype('...')
+    ip.run_cell_magic('rest', '-[ $.*', 'GET /')
+    showtraceback.assert_called_once()
+    err = capsys.readouterr()[1]
+    assert 'Use `%rest --parser`' in err
