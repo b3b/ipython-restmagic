@@ -1,7 +1,8 @@
 """restmagic.parser"""
+# pylint: disable=protected-access
 import re
 from string import Template
-from typing import Any, Callable, Dict
+from typing import Any, Callable, Dict, Tuple, Union
 
 import jsonpath_rw
 from lxml import etree
@@ -127,13 +128,32 @@ class XPathParser:
         root: etree._Element = self.parser(response.content)
         if root is not None:
             tree: etree._ElementTree = root.getroottree()
-            return {
-                tree.getpath(element): etree.tostring(
-                    element, encoding='unicode', pretty_print=True
-                )
-                for element in root.xpath(expression)
-            }
+            result = root.xpath(expression)
+            if isinstance(result, list):
+                # pylint: disable=consider-using-dict-comprehension
+                return dict([self.unpack_element(tree, element) for element in result])
+            return {expression: result}
         return {}
+
+    @staticmethod
+    def unpack_element(
+            tree: etree._ElementTree,
+            element: Union[etree._Element, etree._ElementUnicodeResult, Any]
+    ) -> Tuple[str, str]:
+        """Returns path in the tree and string representation for the given XPath query element.
+        """
+        if isinstance(element, etree._Element):
+            path = tree.getpath(element)
+            text = etree.tostring(element, encoding='unicode', pretty_print=True)
+        else:
+            text = str(element)
+            try:
+                parent = element.getparent()
+            except AttributeError:
+                path = ''
+            else:
+                path = tree.getpath(parent)
+        return (path, text)
 
 
 class ResponseParser:

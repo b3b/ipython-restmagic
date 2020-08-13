@@ -34,8 +34,8 @@ def json_response():
 def xml_response():
     return response_with_content(b"""
     <store>
-      <book><title>Book 1</title></book>
-      <book><title>Book 2</title></book>
+      <book author="author 1"><title>Book 1</title></book>
+      <book author="author 2"><title>Book 2</title></book>
     </store>
     """)
 
@@ -198,10 +198,23 @@ def test_json_response_parsed(json_response):
     }
 
 
-def test_xml_response_parsed(xml_response):
-    assert XPathParser('xml')(response=xml_response, expression='/store/book[2]/title') == {
-        '/store/book[2]/title': '<title>Book 2</title>\n'
-    }
+@pytest.mark.parametrize(
+    'expression, expected', (
+        ('/store/book[2]/title', {'/store/book[2]/title': '<title>Book 2</title>\n'}),
+        ('/store/book[2]/title/text()', {'/store/book[2]/title': 'Book 2'}),
+        ('/store/book[2]/@author',  {'/store/book[2]': 'author 2'}),
+        ('//@author',  {'/store/book[1]': 'author 1', '/store/book[2]': 'author 2'}),
+        ('count(//book)', {'count(//book)': 2.0}),
+        ('boolean(//book)', {'boolean(//book)': True}),
+        ('count(//book) > 10', {'count(//book) > 10': False}),
+        ('string("test")', {'string("test")': 'test'}),
+        ('concat(//store/book[1]/title, " by ", //store/book[1]/@author)', {
+            'concat(//store/book[1]/title, " by ", //store/book[1]/@author)': 'Book 1 by author 1'
+        }),
+    )
+)
+def test_xml_response_parsed(xml_response, expression, expected):
+    assert XPathParser('xml')(response=xml_response, expression=expression) == expected
 
 
 @pytest.mark.parametrize('subtype', ('json', 'xml', 'html'))
