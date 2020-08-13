@@ -40,6 +40,24 @@ def xml_response():
     """)
 
 
+@pytest.fixture
+def xhtml_response():
+    return response_with_content(b"""
+    <?xml version="1.0" encoding="UTF-8"?>
+      <?xml-stylesheet href="xhtml-default.css" type="text/css" media="screen, aural, print" ?>
+      <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+      <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" dir="ltr">
+        <head lang="en" xml:lang="en" dir="ltr" profile="profile">
+        </head>
+        <body id="body" class="body" title="body" lang="en" xml:lang="en" dir="ltr">
+          <h1 id="title" class="title" title="document title" lang="en"
+            xml:lang="en" dir="ltr">Sample XHTML 1.0 document</h1>
+        </body>
+      </html>
+    """)
+
+
 def rest_requests():
     return (
         (
@@ -215,6 +233,12 @@ def test_json_response_parsed(json_response):
 )
 def test_xml_response_parsed(xml_response, expression, expected):
     assert XPathParser('xml')(response=xml_response, expression=expression) == expected
+
+
+def test_xhtml_response_parsed(xhtml_response,):
+    assert XPathParser('html')(response=xhtml_response, expression='//h1/@title') == {
+        '/html/body/h1': 'document title'
+    }
 
 
 @pytest.mark.parametrize('subtype', ('json', 'xml', 'html'))

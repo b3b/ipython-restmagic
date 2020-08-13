@@ -23,8 +23,8 @@ def guess_response_content_subtype(
     """
     mime = get_mime_type(response)
     if mime:
-        subtype = mime.split('/')
-        for known_subtype in 'json', 'xml', 'html':
+        subtype = mime.split('/')[-1]
+        for known_subtype in 'json', 'html', 'xml':
             if known_subtype in subtype:
                 return known_subtype
     try:

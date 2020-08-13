@@ -21,6 +21,8 @@ def test_mime_type_detected(mocker, headers, expected):
     'response, expected', [
         (response_with_content(b'', headers={'content-type': 'application/xml'}), 'xml'),
         (response_with_content(b'', headers={'content-type': 'application/json'}), 'json'),
+        (response_with_content(b'', headers={'content-type': 'image/svg+xml'}), 'xml'),
+        (response_with_content(b'', headers={'content-type': 'application/xhtml+xml'}), 'html'),
         (response_with_content(b'', headers={'content-type': 'text/plain'}), None),
         (response_with_content(b'{}'), 'json'),
         (response_with_content(b'test'), None),
