@@ -279,7 +279,7 @@ def test_timeout_option_handled(send):
     assert send.call_args[1]['timeout'] == 1.01
 
 
-@pytest.mark.parametrize('option', ('-[', '--extract'))
+@pytest.mark.parametrize('option', ('-e', '--extract'))
 def test_extract_option_handled(send, display_dict, display_response,
                                 response_parser, option):
     RESTMagic().rest(line=f"{option} test GET http://localhost")
@@ -290,7 +290,7 @@ def test_extract_option_handled(send, display_dict, display_response,
 
 @pytest.mark.parametrize(
     'line, expected_expression', (
-        ('-[ "a b"', 'a b'),
+        ('-e "a b"', 'a b'),
         ('--extract \'/[name() = "svg"]\'', '/[name() = "svg"]'),
     )
 )
@@ -305,14 +305,14 @@ def test_extract_option_quoted_expression_handled(send, display_dict, display_re
 @pytest.mark.parametrize('parser', ('json', 'xml', 'html'))
 def test_parser_option_handled(send, display_dict, display_response,
                                response_parser, parser):
-    RESTMagic().rest(line=f"--parser {parser} -[ test GET http://localhost")
+    RESTMagic().rest(line=f"--parser {parser} -e test GET http://localhost")
     response_parser.assert_called_once_with(response=mock.ANY, expression=mock.ANY,
                                             content_subtype=parser)
 
 
 def test_traceback_is_shown_if_parse_reponse_fail(ip, response_parser, showtraceback):
     response_parser.side_effect = Exception()
-    result = ip.run_cell_magic('rest', '-[ $.*', 'GET /')
+    result = ip.run_cell_magic('rest', '-e $.*', 'GET /')
     showtraceback.assert_called_once()
     assert response_parser.call_count == 1
     assert result == 'test sended'
@@ -320,7 +320,7 @@ def test_traceback_is_shown_if_parse_reponse_fail(ip, response_parser, showtrace
 
 def test_parser_option_hint_shown_on_unknown_subtype(capsys, ip, response_parser, showtraceback):
     response_parser.side_effect = UnknownSubtype('...')
-    ip.run_cell_magic('rest', '-[ $.*', 'GET /')
+    ip.run_cell_magic('rest', '-e $.*', 'GET /')
     showtraceback.assert_called_once()
     err = capsys.readouterr()[1]
     assert 'Use `%rest --parser`' in err

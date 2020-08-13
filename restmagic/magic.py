@@ -84,7 +84,7 @@ def rest_arguments(func):
             default=None
         ),
         magic_arguments.argument(
-            '--extract', '-[',
+            '--extract', '-e',
             type=str,
             action='store',
             dest='parser_expression',
