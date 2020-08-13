@@ -88,15 +88,21 @@ def parse_rest_headers(text):
     return headers
 
 
-def parse_json_response(*, response, expression):
+def parse_json_response(*, response: Response, expression: str) -> Dict[str, Any]:
     """Parse response with a given JSONPath expression.
 
-    :param response: :class:`request.Response`
+    :param response: HTTP response to parse
     :param expression: JSONPath query string
-    :returns: dict -- parsed response
+    :returns: parsed response
     :raises: jsonpath_rw.lexer.JsonPathLexerError, json.JSONDecodeError,
     """
     data = response.json()
+    if not expression.startswith('$'):
+        # always start from the root object
+        if expression and not expression.startswith('.'):
+            expression = f"$.{expression}"
+        else:
+            expression = f"${expression}"
     return {
         str(match.full_path): match.value
         for match in jsonpath_rw.parse(expression).find(data)

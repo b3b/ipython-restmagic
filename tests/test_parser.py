@@ -210,10 +210,19 @@ def test_variables_expanded(text, kwargs, expected):
     assert expand_variables(text, kwargs) == expected
 
 
-def test_json_response_parsed(json_response):
-    assert parse_json_response(response=json_response, expression='$.store.book[1].title') == {
-        'store.book.[1].title': 'Book 2'
-    }
+@pytest.mark.parametrize(
+    'expression, expected', (
+        ('store.book.[1].title', {'store.book.[1].title': 'Book 2'}),
+        ('.store.book.[1].title', {'store.book.[1].title': 'Book 2'}),
+        ('$..title', {'store.book.[0].title': 'Book 1', 'store.book.[1].title': 'Book 2'}),
+        ('..title', {'store.book.[0].title': 'Book 1', 'store.book.[1].title': 'Book 2'}),
+        ('nosuchitem', {}),
+        ('$', {'$': {'store': {'book': [{'title': 'Book 1'}, {'title': 'Book 2'}]}}}),
+        ('', {'$': {'store': {'book': [{'title': 'Book 1'}, {'title': 'Book 2'}]}}}),
+    )
+)
+def test_json_response_parsed(json_response, expression, expected):
+    assert parse_json_response(response=json_response, expression=expression) == expected
 
 
 @pytest.mark.parametrize(
@@ -229,6 +238,7 @@ def test_json_response_parsed(json_response):
         ('concat(//store/book[1]/title, " by ", //store/book[1]/@author)', {
             'concat(//store/book[1]/title, " by ", //store/book[1]/@author)': 'Book 1 by author 1'
         }),
+        ('//nosuchitem', {}),
     )
 )
 def test_xml_response_parsed(xml_response, expression, expected):
