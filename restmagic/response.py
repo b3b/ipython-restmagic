@@ -5,7 +5,7 @@ from typing import Optional
 from requests import Response
 
 
-def get_mime_type(response: Response) -> Optional[str]:  # pylint: disable=unsubscriptable-object
+def get_mime_type(response: Response) -> Optional[str]:
     """Returns the MIME type of the given HTTP response.
 
     :param response: :class:`request.Response`
@@ -18,7 +18,7 @@ def get_mime_type(response: Response) -> Optional[str]:  # pylint: disable=unsub
 
 def guess_response_content_subtype(
         response: Response
-) -> Optional[str]:  # pylint: disable=unsubscriptable-object
+) -> Optional[str]:
     """Returns the guessed content subtype of the given HTTP response.
     """
     mime = get_mime_type(response)
