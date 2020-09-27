@@ -37,7 +37,7 @@ def dump(mocker):
                         return_value='session dump')
 
 
-@pytest.fixture(autouse=True)
+@pytest.fixture()
 def expand_variables(mocker):
     return mocker.patch('restmagic.magic.expand_variables', return_value='')
 
@@ -107,6 +107,12 @@ def test_variables_expansion_used_by_rest_command(mocker, expand_variables):
         'Content-Type: $ct',
         {'ct': 'application/json'}
     )
+
+
+
+def test_trailing_newline_is_removed_from_cell(ip, parse_rest_request):
+    RESTMagic().rest(line="POST http://localhost", cell="\n1234\n\n")
+    parse_rest_request.assert_called_once_with('POST http://localhost\n\n1234')
 
 
 def test_user_variables_are_passed_to_expand_variables(ip, expand_variables):

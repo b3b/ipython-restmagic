@@ -189,7 +189,7 @@ class RESTMagic(Magics, Configurable):
         try:
             rest_request = parse_rest_request('\n'.join((
                 ' '.join(args.query),
-                expand_variables(cell, self.get_user_namespace())
+                expand_variables(cell, self.get_user_namespace()).rstrip('\n')
             )))
         except ParseError as ex:
             display_usage_example(magic='rest', error_text=str(ex),
