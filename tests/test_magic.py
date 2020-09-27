@@ -109,7 +109,6 @@ def test_variables_expansion_used_by_rest_command(mocker, expand_variables):
     )
 
 
-
 def test_trailing_newline_is_removed_from_cell(ip, parse_rest_request):
     RESTMagic().rest(line="POST http://localhost", cell="\n1234\n\n")
     parse_rest_request.assert_called_once_with('POST http://localhost\n\n1234')
