@@ -46,14 +46,14 @@ Examples
 --------
 
 See notebooks:
-
-* `Usage example <https://github.com/b3b/ipython-restmagic/blob/master/examples/usage.ipynb>`__
-* `Django login form <https://github.com/b3b/ipython-restmagic/blob/master/examples/django.ipynb>`__
-* `GitHub API <https://github.com/b3b/ipython-restmagic/blob/master/examples/github.ipynb>`__
-* `Sending SMS with HiLink API <https://github.com/b3b/ipython-restmagic/blob/master/examples/hilink.ipynb>`__
-* `Ethereum JSON RPC <https://github.com/b3b/ipython-restmagic/blob/master/examples/ethereum.ipynb>`__
-
-In case notebooks do not render, examples could be viewed with Jupyter NBViewer: `here <https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/tree/master/examples/>`__ .
+https://nbviewer.jupyter.org
+github/b3b/ipython-restmagic/blob/master/examples/usage.ipynb
+https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/blob/master/examples/usage.ipynb
+* `Usage example <https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/blob/master/examples/usage.ipynb>`__
+* `Django login form <https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/blob/master/examples/django.ipynb>`__
+* `GitHub API <https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/blob/master/examples/github.ipynb>`__
+* `Sending SMS with HiLink API <https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/blob/master/examples/hilink.ipynb>`__
+* `Ethereum JSON RPC <https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/blob/master/examples/ethereum.ipynb>`__
 
 
 Installation
