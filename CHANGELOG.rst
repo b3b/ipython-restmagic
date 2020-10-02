@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.7.0
+0.7.1
 -----
 
 * Added ability to extract parts of JSON, XML and HTML responses.
