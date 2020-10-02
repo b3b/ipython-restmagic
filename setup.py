@@ -24,6 +24,12 @@ setup(
         'lxml>=4.4.0',
     ],
     url='https://github.com/b3b/ipython-restmagic',
+    project_urls={
+        'Changelog': 'https://github.com/b3b/ipython-restmagic/blob/master/CHANGELOG.rst',
+        'Examples': (
+            'https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/tree/master/examples/'
+        ),
+    },
     # https://pypi.org/classifiers/
     classifiers=[
         'Development Status :: 3 - Alpha',
