@@ -46,9 +46,7 @@ Examples
 --------
 
 See notebooks:
-https://nbviewer.jupyter.org
-github/b3b/ipython-restmagic/blob/master/examples/usage.ipynb
-https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/blob/master/examples/usage.ipynb
+
 * `Usage example <https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/blob/master/examples/usage.ipynb>`__
 * `Django login form <https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/blob/master/examples/django.ipynb>`__
 * `GitHub API <https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/blob/master/examples/github.ipynb>`__
