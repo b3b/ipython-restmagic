@@ -157,3 +157,20 @@ def test_timeout_option_enabled(mocker, requests_send):
     sender.send(RESTRequest('GET', 'http://localhost/test'),
                 timeout=0.01)
     assert requests_send.call_args[1]['timeout'] == 0.01
+
+
+@pytest.mark.parametrize(
+    'cert, key, expected_cert', (
+        (None, None, (None, None)),
+        ('cert.pem', None, ('cert.pem', None)),
+        (None, 'key.pem', (None, 'key.pem')),
+        ('cert.pem', 'key.pem', ('cert.pem', 'key.pem')),
+    )
+)
+def test_cert_and_key_added(mocker, requests_send, cert, key, expected_cert):
+    sender = RequestSender()
+
+    sender.send(RESTRequest('GET', 'http://localhost/test'),
+                cert=cert, key=key)
+
+    assert requests_send.call_args[1]['cert'] == expected_cert

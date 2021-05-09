@@ -2,36 +2,41 @@ interactions:
 - request:
     body: null
     headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
-      Connection: [keep-alive]
-      User-Agent: [python-requests/2.19.1]
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.24.0
     method: GET
     uri: https://httpbin.org/html
   response:
-    body: {string: "<!DOCTYPE html>\n<html>\n  <head>\n  </head>\n  <body>\n     \
-        \ <h1>Herman Melville - Moby-Dick</h1>\n\n      <div>\n        <p>\n     \
-        \     Availing himself of the mild, summer-cool weather that now reigned in\
-        \ these latitudes, and in preparation for the peculiarly active pursuits shortly\
-        \ to be anticipated, Perth, the begrimed, blistered old blacksmith, had not\
-        \ removed his portable forge to the hold again, after concluding his contributory\
-        \ work for Ahab's leg, but still retained it on deck, fast lashed to ringbolts\
-        \ by the foremast; being now almost incessantly invoked by the headsmen, and\
-        \ harpooneers, and bowsmen to do some little job for them; altering, or repairing,\
-        \ or new shaping their various weapons and boat furniture. Often he would\
-        \ be surrounded by an eager circle, all waiting to be served; holding boat-spades,\
-        \ pike-heads, harpoons, and lances, and jealously watching his every sooty\
-        \ movement, as he toiled. Nevertheless, this old man's was a patient hammer\
-        \ wielded by a patient arm. No murmur, no impatience, no petulance did come\
-        \ from him. Silent, slow, and solemn; bowing over still further his chronically\
-        \ broken back, he toiled away, as if toil were life itself, and the heavy\
-        \ beating of his hammer the heavy beating of his heart. And so it was.\u2014\
-        Most miserable! A peculiar walk in this old man, a certain slight but painful\
-        \ appearing yawing in his gait, had at an early period of the voyage excited\
-        \ the curiosity of the mariners. And to the importunity of their persisted\
-        \ questionings he had finally given in; and so it came to pass that every\
-        \ one now knew the shameful story of his wretched fate. Belated, and not innocently,\
-        \ one bitter winter's midnight, on the road running between two country towns,\
+    body:
+      string: "<!DOCTYPE html>\n<html>\n  <head>\n  </head>\n  <body>\n      <h1>Herman\
+        \ Melville - Moby-Dick</h1>\n\n      <div>\n        <p>\n          Availing\
+        \ himself of the mild, summer-cool weather that now reigned in these latitudes,\
+        \ and in preparation for the peculiarly active pursuits shortly to be anticipated,\
+        \ Perth, the begrimed, blistered old blacksmith, had not removed his portable\
+        \ forge to the hold again, after concluding his contributory work for Ahab's\
+        \ leg, but still retained it on deck, fast lashed to ringbolts by the foremast;\
+        \ being now almost incessantly invoked by the headsmen, and harpooneers, and\
+        \ bowsmen to do some little job for them; altering, or repairing, or new shaping\
+        \ their various weapons and boat furniture. Often he would be surrounded by\
+        \ an eager circle, all waiting to be served; holding boat-spades, pike-heads,\
+        \ harpoons, and lances, and jealously watching his every sooty movement, as\
+        \ he toiled. Nevertheless, this old man's was a patient hammer wielded by\
+        \ a patient arm. No murmur, no impatience, no petulance did come from him.\
+        \ Silent, slow, and solemn; bowing over still further his chronically broken\
+        \ back, he toiled away, as if toil were life itself, and the heavy beating\
+        \ of his hammer the heavy beating of his heart. And so it was.\u2014Most miserable!\
+        \ A peculiar walk in this old man, a certain slight but painful appearing\
+        \ yawing in his gait, had at an early period of the voyage excited the curiosity\
+        \ of the mariners. And to the importunity of their persisted questionings\
+        \ he had finally given in; and so it came to pass that every one now knew\
+        \ the shameful story of his wretched fate. Belated, and not innocently, one\
+        \ bitter winter's midnight, on the road running between two country towns,\
         \ the blacksmith half-stupidly felt the deadly numbness stealing over him,\
         \ and sought refuge in a leaning, dilapidated barn. The issue was, the loss\
         \ of the extremities of both feet. Out of this revelation, part by part, at\
@@ -58,49 +63,63 @@ interactions:
         \ taken this old blacksmith to thyself ere his full ruin came upon him, then\
         \ had the young widow had a delicious grief, and her orphans a truly venerable,\
         \ legendary sire to dream of in their after years; and all of them a care-killing\
-        \ competency.\n        </p>\n      </div>\n  </body>\n</html>"}
+        \ competency.\n        </p>\n      </div>\n  </body>\n</html>"
     headers:
-      Access-Control-Allow-Credentials: ['true']
-      Access-Control-Allow-Origin: ['*']
-      Connection: [keep-alive]
-      Content-Length: ['3741']
-      Content-Type: [text/html; charset=utf-8]
-      Date: ['Sun, 27 Sep 2020 17:45:10 GMT']
-      Server: [gunicorn/19.9.0]
-    status: {code: 200, message: OK}
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '3741'
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Sun, 09 May 2021 15:14:11 GMT
+      Server:
+      - gunicorn/19.9.0
+    status:
+      code: 200
+      message: OK
 - request:
     body: null
     headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
-      Connection: [keep-alive]
-      User-Agent: [python-requests/2.19.1]
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.24.0
     method: GET
     uri: https://httpbin.org/html
   response:
-    body: {string: "<!DOCTYPE html>\n<html>\n  <head>\n  </head>\n  <body>\n     \
-        \ <h1>Herman Melville - Moby-Dick</h1>\n\n      <div>\n        <p>\n     \
-        \     Availing himself of the mild, summer-cool weather that now reigned in\
-        \ these latitudes, and in preparation for the peculiarly active pursuits shortly\
-        \ to be anticipated, Perth, the begrimed, blistered old blacksmith, had not\
-        \ removed his portable forge to the hold again, after concluding his contributory\
-        \ work for Ahab's leg, but still retained it on deck, fast lashed to ringbolts\
-        \ by the foremast; being now almost incessantly invoked by the headsmen, and\
-        \ harpooneers, and bowsmen to do some little job for them; altering, or repairing,\
-        \ or new shaping their various weapons and boat furniture. Often he would\
-        \ be surrounded by an eager circle, all waiting to be served; holding boat-spades,\
-        \ pike-heads, harpoons, and lances, and jealously watching his every sooty\
-        \ movement, as he toiled. Nevertheless, this old man's was a patient hammer\
-        \ wielded by a patient arm. No murmur, no impatience, no petulance did come\
-        \ from him. Silent, slow, and solemn; bowing over still further his chronically\
-        \ broken back, he toiled away, as if toil were life itself, and the heavy\
-        \ beating of his hammer the heavy beating of his heart. And so it was.\u2014\
-        Most miserable! A peculiar walk in this old man, a certain slight but painful\
-        \ appearing yawing in his gait, had at an early period of the voyage excited\
-        \ the curiosity of the mariners. And to the importunity of their persisted\
-        \ questionings he had finally given in; and so it came to pass that every\
-        \ one now knew the shameful story of his wretched fate. Belated, and not innocently,\
-        \ one bitter winter's midnight, on the road running between two country towns,\
+    body:
+      string: "<!DOCTYPE html>\n<html>\n  <head>\n  </head>\n  <body>\n      <h1>Herman\
+        \ Melville - Moby-Dick</h1>\n\n      <div>\n        <p>\n          Availing\
+        \ himself of the mild, summer-cool weather that now reigned in these latitudes,\
+        \ and in preparation for the peculiarly active pursuits shortly to be anticipated,\
+        \ Perth, the begrimed, blistered old blacksmith, had not removed his portable\
+        \ forge to the hold again, after concluding his contributory work for Ahab's\
+        \ leg, but still retained it on deck, fast lashed to ringbolts by the foremast;\
+        \ being now almost incessantly invoked by the headsmen, and harpooneers, and\
+        \ bowsmen to do some little job for them; altering, or repairing, or new shaping\
+        \ their various weapons and boat furniture. Often he would be surrounded by\
+        \ an eager circle, all waiting to be served; holding boat-spades, pike-heads,\
+        \ harpoons, and lances, and jealously watching his every sooty movement, as\
+        \ he toiled. Nevertheless, this old man's was a patient hammer wielded by\
+        \ a patient arm. No murmur, no impatience, no petulance did come from him.\
+        \ Silent, slow, and solemn; bowing over still further his chronically broken\
+        \ back, he toiled away, as if toil were life itself, and the heavy beating\
+        \ of his hammer the heavy beating of his heart. And so it was.\u2014Most miserable!\
+        \ A peculiar walk in this old man, a certain slight but painful appearing\
+        \ yawing in his gait, had at an early period of the voyage excited the curiosity\
+        \ of the mariners. And to the importunity of their persisted questionings\
+        \ he had finally given in; and so it came to pass that every one now knew\
+        \ the shameful story of his wretched fate. Belated, and not innocently, one\
+        \ bitter winter's midnight, on the road running between two country towns,\
         \ the blacksmith half-stupidly felt the deadly numbness stealing over him,\
         \ and sought refuge in a leaning, dilapidated barn. The issue was, the loss\
         \ of the extremities of both feet. Out of this revelation, part by part, at\
@@ -127,44 +146,227 @@ interactions:
         \ taken this old blacksmith to thyself ere his full ruin came upon him, then\
         \ had the young widow had a delicious grief, and her orphans a truly venerable,\
         \ legendary sire to dream of in their after years; and all of them a care-killing\
-        \ competency.\n        </p>\n      </div>\n  </body>\n</html>"}
+        \ competency.\n        </p>\n      </div>\n  </body>\n</html>"
     headers:
-      Access-Control-Allow-Credentials: ['true']
-      Access-Control-Allow-Origin: ['*']
-      Connection: [keep-alive]
-      Content-Length: ['3741']
-      Content-Type: [text/html; charset=utf-8]
-      Date: ['Sun, 27 Sep 2020 17:45:10 GMT']
-      Server: [gunicorn/19.9.0]
-    status: {code: 200, message: OK}
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '3741'
+      Content-Type:
+      - text/html; charset=utf-8
+      Date:
+      - Sun, 09 May 2021 15:14:12 GMT
+      Server:
+      - gunicorn/19.9.0
+    status:
+      code: 200
+      message: OK
 - request:
     body: username=Gena&email=crocodile@example.org
     headers:
-      Accept: ['*/*']
-      Accept-Encoding: ['gzip, deflate']
-      Connection: [keep-alive]
-      Content-Length: ['41']
-      Content-Type: [application/x-www-form-urlencoded]
-      User-Agent: [python-requests/2.19.1]
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '41'
+      Content-Type:
+      - application/x-www-form-urlencoded
+      User-Agent:
+      - python-requests/2.24.0
     method: POST
     uri: https://httpbin.org/post
   response:
-    body: {string: "{\n  \"args\": {}, \n  \"data\": \"\", \n  \"files\": {}, \n \
-        \ \"form\": {\n    \"email\": \"crocodile@example.org\", \n    \"username\"\
-        : \"Gena\"\n  }, \n  \"headers\": {\n    \"Accept\": \"*/*\", \n    \"Accept-Encoding\"\
+    body:
+      string: "{\n  \"args\": {}, \n  \"data\": \"\", \n  \"files\": {}, \n  \"form\"\
+        : {\n    \"email\": \"crocodile@example.org\", \n    \"username\": \"Gena\"\
+        \n  }, \n  \"headers\": {\n    \"Accept\": \"*/*\", \n    \"Accept-Encoding\"\
         : \"gzip, deflate\", \n    \"Content-Length\": \"41\", \n    \"Content-Type\"\
         : \"application/x-www-form-urlencoded\", \n    \"Host\": \"httpbin.org\",\
-        \ \n    \"User-Agent\": \"python-requests/2.19.1\", \n    \"X-Amzn-Trace-Id\"\
-        : \"Root=1-5f70cfa7-9bdf793bf9d006b7efe6cca8\"\n  }, \n  \"json\": null, \n\
-        \  \"origin\": \"79.143.111.207\", \n  \"url\": \"https://httpbin.org/post\"\
-        \n}\n"}
+        \ \n    \"User-Agent\": \"python-requests/2.24.0\", \n    \"X-Amzn-Trace-Id\"\
+        : \"Root=1-6097fc45-77e3f92d6421c08c7972bd55\"\n  }, \n  \"json\": null, \n\
+        \  \"origin\": \"79.143.111.139\", \n  \"url\": \"https://httpbin.org/post\"\
+        \n}\n"
     headers:
-      Access-Control-Allow-Credentials: ['true']
-      Access-Control-Allow-Origin: ['*']
-      Connection: [keep-alive]
-      Content-Length: ['524']
-      Content-Type: [application/json]
-      Date: ['Sun, 27 Sep 2020 17:45:11 GMT']
-      Server: [gunicorn/19.9.0]
-    status: {code: 200, message: OK}
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Origin:
+      - '*'
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '524'
+      Content-Type:
+      - application/json
+      Date:
+      - Sun, 09 May 2021 15:14:13 GMT
+      Server:
+      - gunicorn/19.9.0
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.24.0
+    method: GET
+    uri: https://client.badssl.com/
+  response:
+    body:
+      string: "<html>\r\n<head><title>400 No required SSL certificate was sent</title></head>\r\
+        \n<body bgcolor=\"white\">\r\n<center><h1>400 Bad Request</h1></center>\r\n\
+        <center>No required SSL certificate was sent</center>\r\n<hr><center>nginx/1.10.3\
+        \ (Ubuntu)</center>\r\n</body>\r\n</html>\r\n"
+    headers:
+      Connection:
+      - close
+      Content-Length:
+      - '262'
+      Content-Type:
+      - text/html
+      Date:
+      - Sun, 09 May 2021 15:14:14 GMT
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.24.0
+    method: GET
+    uri: https://client.badssl.com/
+  response:
+    body:
+      string: "<html>\r\n<head><title>400 No required SSL certificate was sent</title></head>\r\
+        \n<body bgcolor=\"white\">\r\n<center><h1>400 Bad Request</h1></center>\r\n\
+        <center>No required SSL certificate was sent</center>\r\n<hr><center>nginx/1.10.3\
+        \ (Ubuntu)</center>\r\n</body>\r\n</html>\r\n"
+    headers:
+      Connection:
+      - close
+      Content-Length:
+      - '262'
+      Content-Type:
+      - text/html
+      Date:
+      - Sun, 09 May 2021 15:14:15 GMT
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+    status:
+      code: 400
+      message: Bad Request
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.24.0
+    method: GET
+    uri: https://client.badssl.com/
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA22SQY/TMBCF7/0Vg7mSWOWEuk4uC7eVQNpeOFWuPa1Hde1gT1oVxH/HcQIBiVM8
+        mTcvbz5Hvfn4+Xn/9csncHz1/Ub9fqC2/QZAXZE1GKdTRu7EyKfmg1gbQV+xEzfC+xATCzAxMIYi
+        vJNl11m8kcGmFu+AAjFp32SjPXbb2cZTuEBC34nsioUZGai4CHAJT52QU5HlSRejGJpzQgxtOQpZ
+        Q6zTehg8NhxH45r/GPw1PYTzMs3EHnvjqURuj9rm7FsTr0rOjWn99QOZHx6zQyxrLtnqq9bkPK9S
+        y/4Y7QN+wFGbyznFMdgd1NRP8FPJWbJR0lW+ahIX6JZuQLYTC77Zzm2hyjtxKlSbTN9xB9v3t/tT
+        7QMswdUx9Wv4KbR022Iqi2u/Wc1PMTKmOrt3lCETYyH/baSEGTQovezlmIe8k7KQvtOFBrSk25jO
+        cqrkPumQp9s+vOgHpsMrmjERP94+V46NHtkVnmQ0oz3sX14PTgebnb6gWFj/q1FS91B08EfXruHl
+        QkjO/+UvTp6pkq8CAAA=
+    headers:
+      Cache-Control:
+      - no-store
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - text/html
+      Date:
+      - Sun, 09 May 2021 15:14:16 GMT
+      ETag:
+      - W/"60357389-2af"
+      Last-Modified:
+      - Tue, 23 Feb 2021 21:28:41 GMT
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.24.0
+    method: GET
+    uri: https://client.badssl.com/
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA22SQY/TMBCF7/0Vg7mSWOWEuk4uC7eVQNpeOFWuPa1Hde1gT1oVxH/HcQIBiVM8
+        mTcvbz5Hvfn4+Xn/9csncHz1/Ub9fqC2/QZAXZE1GKdTRu7EyKfmg1gbQV+xEzfC+xATCzAxMIYi
+        vJNl11m8kcGmFu+AAjFp32SjPXbb2cZTuEBC34nsioUZGai4CHAJT52QU5HlSRejGJpzQgxtOQpZ
+        Q6zTehg8NhxH45r/GPw1PYTzMs3EHnvjqURuj9rm7FsTr0rOjWn99QOZHx6zQyxrLtnqq9bkPK9S
+        y/4Y7QN+wFGbyznFMdgd1NRP8FPJWbJR0lW+ahIX6JZuQLYTC77Zzm2hyjtxKlSbTN9xB9v3t/tT
+        7QMswdUx9Wv4KbR022Iqi2u/Wc1PMTKmOrt3lCETYyH/baSEGTQovezlmIe8k7KQvtOFBrSk25jO
+        cqrkPumQp9s+vOgHpsMrmjERP94+V46NHtkVnmQ0oz3sX14PTgebnb6gWFj/q1FS91B08EfXruHl
+        QkjO/+UvTp6pkq8CAAA=
+    headers:
+      Cache-Control:
+      - no-store
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - text/html
+      Date:
+      - Sun, 09 May 2021 15:14:17 GMT
+      ETag:
+      - W/"60357389-2af"
+      Last-Modified:
+      - Tue, 23 Feb 2021 21:28:41 GMT
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
 version: 1

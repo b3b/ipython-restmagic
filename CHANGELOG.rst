@@ -1,6 +1,16 @@
 Changelog
 =========
 
+0.7.2
+-----
+
+* Added ability to specify a client side SSL certificate.
+  New options introduced:
+
+  - `--cert`: Path to a file to use as a client side SSL certificate
+  - `--key`: Path to a file to use as a client side SSL private key
+
+
 0.7.1
 -----
 

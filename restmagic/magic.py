@@ -58,6 +58,22 @@ def rest_arguments(func):
             default=None
         ),
         magic_arguments.argument(
+            '--cert',
+            type=str,
+            action='store',
+            dest='cert',
+            help=("Path to a file to use as a client side SSL certificate."),
+            default=None
+        ),
+        magic_arguments.argument(
+            '--key',
+            type=str,
+            action='store',
+            dest='key',
+            help=("Path to a file to use as a client side SSL private key."),
+            default=None
+        ),
+        magic_arguments.argument(
             '--proxy',
             type=str,
             action='store',
@@ -121,6 +137,8 @@ class RESTMagic(Magics, Configurable):
         quiet=False,
         verbose=False,
         insecure=False,
+        cert=None,
+        key=None,
         parser=None,
         parser_expression=None,
         max_redirects=DEFAULT_REDIRECT_LIMIT,
@@ -206,6 +224,8 @@ class RESTMagic(Magics, Configurable):
                 verify=not args.insecure,
                 max_redirects=args.max_redirects,
                 timeout=args.timeout,
+                cert=args.cert,
+                key=args.key,
             )
         except SSLError:
             self.showtraceback('Use `%rest --insecure` option to disable '

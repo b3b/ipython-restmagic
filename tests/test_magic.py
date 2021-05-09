@@ -293,6 +293,16 @@ def test_extract_option_handled(send, display_dict, display_response,
     display_dict.assert_called_once()
 
 
+def test_cert_option_handled(send):
+    RESTMagic().rest(line='--cert test.pem GET http://localhost')
+    assert send.call_args[1]['cert'] == 'test.pem'
+
+
+def test_key_option_handled(send):
+    RESTMagic().rest(line='--key test.pem GET http://localhost')
+    assert send.call_args[1]['key'] == 'test.pem'
+
+
 @pytest.mark.parametrize(
     'line, expected_expression', (
         ('-e "a b"', 'a b'),
