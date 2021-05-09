@@ -23,8 +23,12 @@ jobs:
           pip install tox tox-gh-actions
       - name: Test with tox
         run: tox
+      - name: Debug
+        run: find
+      - name: ls covarage
+        run: ls -l ./coverage.xml
       - name: Upload coverage to Codecov
-        if: matrix.python-version == '3.9'
+        if: matrix.python-version == '3.7'
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
