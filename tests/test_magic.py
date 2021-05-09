@@ -263,6 +263,11 @@ def test_insecure_option_handled(send):
     assert send.call_args[1]['verify'] is False
 
 
+def test_cacert_option_handled(send):
+    RESTMagic().rest(line='--cacert test.pem GET http://localhost')
+    assert send.call_args[1]['cacert'] == 'test.pem'
+
+
 def test_proxy_option_handled(send):
     RESTMagic().rest(line='--proxy 127.0.0.1:9000 GET http://localhost')
     assert send.call_args[1]['proxy'] == '127.0.0.1:9000'

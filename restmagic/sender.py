@@ -17,12 +17,16 @@ class RequestSender():
         self.response = None
         self.keep_alive = keep_alive
 
-    def send(self, rest_request, verify=True, cert=None,  # pylint: disable=too-many-arguments
-             key=None, proxy=None, max_redirects=None, timeout=None):
+    def send(self, rest_request, verify=True, cacert=None,  # pylint: disable=too-many-arguments
+             cert=None,  key=None, proxy=None, max_redirects=None,
+             timeout=None):
         """Send a given request.
 
         :param rest_request: :class:`RESTRequest` to send
         :param verify: disable SSL cert verification if False
+        :param cacert: Path to a SSL certificate to verify the peer
+        :param cert: Path to a client SSL certificate
+        :param key: Path to a client SSL private key
         :param proxy: proxy server to use
         :param max_redirects: maximum number of redirects allowed
         :param timeout: maximum number of seconds to wait for a response
@@ -49,7 +53,7 @@ class RequestSender():
                 prepared_request,
                 proxies=proxies,
                 timeout=timeout,
-                verify=verify,
+                verify=cacert or verify,
                 cert=(cert, key),
             )
         return self.response

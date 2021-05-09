@@ -4,6 +4,12 @@ Changelog
 0.7.2
 -----
 
+* Added ability to specify a SSL certificate to verify the peer.
+  New option introduced:
+
+  - `--cacert`: Path to a file to use as a SSL certificate to verify the peer.
+
+
 * Added ability to specify a client side SSL certificate.
   New options introduced:
 

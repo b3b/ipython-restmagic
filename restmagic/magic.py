@@ -58,6 +58,14 @@ def rest_arguments(func):
             default=None
         ),
         magic_arguments.argument(
+            '--cacert',
+            type=str,
+            action='store',
+            dest='cacert',
+            help=("Path to a file to use as a SSL certificate to verify the peer."),
+            default=None
+        ),
+        magic_arguments.argument(
             '--cert',
             type=str,
             action='store',
@@ -137,6 +145,7 @@ class RESTMagic(Magics, Configurable):
         quiet=False,
         verbose=False,
         insecure=False,
+        cacert=None,
         cert=None,
         key=None,
         parser=None,
@@ -221,9 +230,10 @@ class RESTMagic(Magics, Configurable):
             response = sender.send(
                 RESTRequest('GET', 'https://') + root + rest_request,
                 proxy=args.proxy,
-                verify=not args.insecure,
                 max_redirects=args.max_redirects,
                 timeout=args.timeout,
+                verify=not args.insecure,
+                cacert=args.cacert,
                 cert=args.cert,
                 key=args.key,
             )

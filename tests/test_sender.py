@@ -120,6 +120,13 @@ def test_verify_option_enabled(requests_send):
     assert requests_send.call_args[1]['verify'] is False
 
 
+def test_cacert_added(requests_send):
+    sender = RequestSender()
+
+    sender.send(RESTRequest('GET', 'http://localhost/test'), cacert='test.pem')
+    assert requests_send.call_args[1]['verify'] == 'test.pem'
+
+
 def test_proxy_option_enabled(requests_send):
     sender = RequestSender()
 

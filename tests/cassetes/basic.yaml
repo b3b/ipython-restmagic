@@ -76,7 +76,7 @@ interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Sun, 09 May 2021 15:14:11 GMT
+      - Sun, 09 May 2021 17:06:58 GMT
       Server:
       - gunicorn/19.9.0
     status:
@@ -159,7 +159,7 @@ interactions:
       Content-Type:
       - text/html; charset=utf-8
       Date:
-      - Sun, 09 May 2021 15:14:12 GMT
+      - Sun, 09 May 2021 17:06:59 GMT
       Server:
       - gunicorn/19.9.0
     status:
@@ -190,7 +190,7 @@ interactions:
         : \"gzip, deflate\", \n    \"Content-Length\": \"41\", \n    \"Content-Type\"\
         : \"application/x-www-form-urlencoded\", \n    \"Host\": \"httpbin.org\",\
         \ \n    \"User-Agent\": \"python-requests/2.24.0\", \n    \"X-Amzn-Trace-Id\"\
-        : \"Root=1-6097fc45-77e3f92d6421c08c7972bd55\"\n  }, \n  \"json\": null, \n\
+        : \"Root=1-609816b4-2bbef3d818d2aa9f3361ffa8\"\n  }, \n  \"json\": null, \n\
         \  \"origin\": \"79.143.111.139\", \n  \"url\": \"https://httpbin.org/post\"\
         \n}\n"
     headers:
@@ -205,9 +205,97 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Sun, 09 May 2021 15:14:13 GMT
+      - Sun, 09 May 2021 17:07:00 GMT
       Server:
       - gunicorn/19.9.0
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.24.0
+    method: GET
+    uri: https://self-signed.badssl.com/
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA21RsVLEIBDt8xUrtTkmVs4JadRaCxtLApuDOQIZILk5Hf9dQqKxsIJl375978Fu
+        nl4e395fn0GnwbYV+zlQqLYCYAMmAVKLEDFxMqW+vid7w4kBOZkNXkYfEgHpXUKXgRejkuYKZyOx
+        LsUtGGeSEbaOUljkzUpjjTtDQMtJ1JlCTglMZiGgA/ac0KWItBeZyLs6oDrkC6FFwj4rxtFinfwk
+        df3P+O/s6E7bbDLJYhvR9nU0J5d5O6FitAfpB0bX7uJ/3xHT1WLUiNnnJq48HWSMq5dStp1XV/iE
+        TsjzKfjJqWP2px7gi9EVUDGqS7xsgebMlZnBKE629FYy3UCBc9LnULPIDzxCczdfHkof4K921oV2
+        17/oprrJzDRTt1U+t010/d5v4ZMelfYBAAA=
+    headers:
+      Cache-Control:
+      - no-store
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - text/html
+      Date:
+      - Sun, 09 May 2021 17:07:00 GMT
+      ETag:
+      - W/"60357389-1f6"
+      Last-Modified:
+      - Tue, 23 Feb 2021 21:28:41 GMT
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Transfer-Encoding:
+      - chunked
+    status:
+      code: 200
+      message: OK
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.24.0
+    method: GET
+    uri: https://self-signed.badssl.com/
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAA21RsVLEIBDt8xUrtTkmVs4JadRaCxtLApuDOQIZILk5Hf9dQqKxsIJl375978Fu
+        nl4e395fn0GnwbYV+zlQqLYCYAMmAVKLEDFxMqW+vid7w4kBOZkNXkYfEgHpXUKXgRejkuYKZyOx
+        LsUtGGeSEbaOUljkzUpjjTtDQMtJ1JlCTglMZiGgA/ac0KWItBeZyLs6oDrkC6FFwj4rxtFinfwk
+        df3P+O/s6E7bbDLJYhvR9nU0J5d5O6FitAfpB0bX7uJ/3xHT1WLUiNnnJq48HWSMq5dStp1XV/iE
+        TsjzKfjJqWP2px7gi9EVUDGqS7xsgebMlZnBKE629FYy3UCBc9LnULPIDzxCczdfHkof4K921oV2
+        17/oprrJzDRTt1U+t010/d5v4ZMelfYBAAA=
+    headers:
+      Cache-Control:
+      - no-store
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - text/html
+      Date:
+      - Sun, 09 May 2021 17:07:01 GMT
+      ETag:
+      - W/"60357389-1f6"
+      Last-Modified:
+      - Tue, 23 Feb 2021 21:28:41 GMT
+      Server:
+      - nginx/1.10.3 (Ubuntu)
+      Transfer-Encoding:
+      - chunked
     status:
       code: 200
       message: OK
@@ -238,7 +326,7 @@ interactions:
       Content-Type:
       - text/html
       Date:
-      - Sun, 09 May 2021 15:14:14 GMT
+      - Sun, 09 May 2021 17:07:02 GMT
       Server:
       - nginx/1.10.3 (Ubuntu)
     status:
@@ -271,7 +359,7 @@ interactions:
       Content-Type:
       - text/html
       Date:
-      - Sun, 09 May 2021 15:14:15 GMT
+      - Sun, 09 May 2021 17:07:03 GMT
       Server:
       - nginx/1.10.3 (Ubuntu)
     status:
@@ -311,7 +399,7 @@ interactions:
       Content-Type:
       - text/html
       Date:
-      - Sun, 09 May 2021 15:14:16 GMT
+      - Sun, 09 May 2021 17:07:04 GMT
       ETag:
       - W/"60357389-2af"
       Last-Modified:
@@ -357,7 +445,7 @@ interactions:
       Content-Type:
       - text/html
       Date:
-      - Sun, 09 May 2021 15:14:17 GMT
+      - Sun, 09 May 2021 17:07:05 GMT
       ETag:
       - W/"60357389-2af"
       Last-Modified:
