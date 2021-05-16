@@ -14,6 +14,9 @@ ipython-restmagic
 .. image:: https://codecov.io/github/b3b/ipython-restmagic/coverage.svg?branch=master
     :target: https://codecov.io/github/b3b/ipython-restmagic?branch=master
     :alt: Code coverage Status
+.. image:: https://mybinder.org/badge_logo.svg
+    :target: https://mybinder.org/v2/gh/b3b/ipython-restmagic/binder?filepath=examples
+    :alt: Open examples in Binder
 .. end-badges
 
 `%%rest` : HTTP REST magic for IPython.
