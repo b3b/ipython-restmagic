@@ -15,7 +15,7 @@ ipython-restmagic
     :target: https://codecov.io/github/b3b/ipython-restmagic?branch=master
     :alt: Code coverage Status
 .. image:: https://mybinder.org/badge_logo.svg
-    :target: https://mybinder.org/v2/gh/b3b/ipython-restmagic/binder?filepath=examples
+    :target: https://mybinder.org/v2/gh/b3b/ipython-restmagic/binder?filepath=examples/usage.md
     :alt: Open examples in Binder
 .. end-badges
 
