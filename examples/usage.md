@@ -15,7 +15,7 @@ jupyter:
 # %rest usage example
 
 
-## Load
+## Load the extension
 
 ```python
 %load_ext restmagic

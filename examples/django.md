@@ -15,8 +15,6 @@ jupyter:
 # Django login form
 
 ```python
-from bs4 import BeautifulSoup
-
 %load_ext restmagic
 %rest_root http://mezzanine.jupo.org
 ```
@@ -24,7 +22,7 @@ from bs4 import BeautifulSoup
 ## First attempt to login
 
 ```python
-%%rest
+%%rest --extract //p/text()
 POST /en/admin/login/?next=/en/admin/
 Content-Type: application/x-www-form-urlencoded
 
@@ -50,7 +48,7 @@ r = %rest -q /en/admin/login/
 <!-- #endregion -->
 
 ```python
-%%rest
+%%rest --extract //p/text()
 POST /en/admin/login/?next=/en/admin/
 Content-Type: application/x-www-form-urlencoded
 
@@ -74,20 +72,9 @@ Content-Type: application/x-www-form-urlencoded
 username=demo&password=demo&csrfmiddlewaretoken=$token
 ```
 
-### CSRF token from the HTML form is also works
+### 'csrfmiddlewaretoken' field
+CSRF token is also available in the hidden HTML form field:
 
 ```python
-%rest_session
-r = %rest -q /en/admin/login/
-soup = BeautifulSoup(r.text)
-token = soup.find('input', {'name': 'csrfmiddlewaretoken'}).get('value')
-print("Token from the hidden form field: " + token)
-```
-
-```python
-%%rest -q
-POST /en/admin/login/?next=/en/admin
-Content-Type: application/x-www-form-urlencoded
-
-username=demo&password=demo&csrfmiddlewaretoken=$token
+%rest -e "//input[@name='csrfmiddlewaretoken']/@value" /en/admin/login/
 ```
