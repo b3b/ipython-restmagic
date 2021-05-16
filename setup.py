@@ -23,6 +23,11 @@ setup(
         'jsonpath-rw>=1.4.0',
         'lxml>=4.4.0',
     ],
+    extras_require={
+        'dev': [
+            'jupytext>=1.7.1',
+        ],
+    },
     url='https://github.com/b3b/ipython-restmagic',
     project_urls={
         'Changelog': 'https://github.com/b3b/ipython-restmagic/blob/master/CHANGELOG.rst',
