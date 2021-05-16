@@ -8,23 +8,33 @@ ipython-restmagic
 .. image:: https://img.shields.io/pypi/pyversions/restmagic.svg
     :target: https://pypi.python.org/pypi/restmagic
     :alt: Supported Python versions
+.. image:: https://github.com/b3b/ipython-restmagic/workflows/ci/badge.svg?branch=master
+     :target: https://github.com/b3b/ipython-restmagic/actions?workflow=CI
+     :alt: CI Status
 .. image:: https://img.shields.io/travis/b3b/ipython-restmagic.svg
     :target: https://travis-ci.org/b3b/ipython-restmagic
     :alt: Travis-CI build status
 .. image:: https://codecov.io/github/b3b/ipython-restmagic/coverage.svg?branch=master
     :target: https://codecov.io/github/b3b/ipython-restmagic?branch=master
     :alt: Code coverage Status
+.. image:: https://mybinder.org/badge_logo.svg
+    :target: https://mybinder.org/v2/gh/b3b/ipython-restmagic/master?filepath=examples/usage.ipynb
+    :alt: Open examples in Binder
 .. end-badges
 
-`%%rest` : HTTP REST magic for IPython.
 
-Intended to provide similar functionality as `restclient.el <https://github.com/pashky/restclient.el>`__ - HTTP REST client tool for Emacs.
+`%%rest` :  IPython magic to execute HTTP requests.
+
+:Code repository: https://github.com/b3b/ipython-restmagic
+:Documentation: https://herethere.me/restmagic
+:Changelog: https://github.com/b3b/ipython-restmagic/blob/master/CHANGELOG.rst
+
 
 
 Usage
 -----
 
-.. code-block:: python
+.. code-block:: ipython
 
     In [1]: %load_ext restmagic
     In [2]: %%rest
@@ -40,18 +50,6 @@ Usage
        ...:     ]
        ...: }
     Out [2]: <Response [200]>
-
-
-Examples
---------
-
-See notebooks:
-
-* `Usage example <https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/blob/master/examples/usage.ipynb>`__
-* `Django login form <https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/blob/master/examples/django.ipynb>`__
-* `GitHub API <https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/blob/master/examples/github.ipynb>`__
-* `Sending SMS with HiLink API <https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/blob/master/examples/hilink.ipynb>`__
-* `Ethereum JSON RPC <https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/blob/master/examples/ethereum.ipynb>`__
 
 
 Installation

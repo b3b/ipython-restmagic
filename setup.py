@@ -32,7 +32,7 @@ setup(
     project_urls={
         'Changelog': 'https://github.com/b3b/ipython-restmagic/blob/master/CHANGELOG.rst',
         'Examples': (
-            'https://nbviewer.jupyter.org/github/b3b/ipython-restmagic/tree/master/examples/'
+            'https://herethere.me/restmagic/examples/usage.html'
         ),
     },
     # https://pypi.org/classifiers/
@@ -48,7 +48,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
     ],
-    keywords='magic rest http ipython jupyter',
+    keywords='magic rest http requests ipython jupyter',
     license='MIT',
     zip_safe=False,
 )
