@@ -8,5 +8,5 @@ pylint
 codecov>=1.4.0
 papermill==2.1.2
 vcrpy==4.1.0
-nbdime==2.0.0
+nbdime==2.1.1
 
